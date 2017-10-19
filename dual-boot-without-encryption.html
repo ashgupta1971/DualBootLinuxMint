@@ -96,7 +96,7 @@ Also download the signature file and verify the ISO image using the command:</p>
 <li><em>Music</em> folder</li>
 <li><em>Google Drive</em> folder</li>
 <li>any folders in the <em>Data</em> partition</li>
-<li>the <em>Ashish.kdbx</em> password file</li>
+<li>the <em>johndoe.kdbx</em> password file</li>
 <li>export all Oracle Virtualbox VMs as appliances to an external drive</li>
 </ul>
 
@@ -200,16 +200,16 @@ have chosen.</em></li>
 <li>USB 3</li>
 <li>graphics card</li>
 </ul></li>
-<li>Create a <em>local</em>, <em>non-adminstrator</em> account called <em>ashish</em>.</li>
-<li>Create a <em>visitor</em> account by running this <a href="https://drive.google.com/open?id=0B5dVa-WB01h5OEMtTlh2MGNxdU0" title="Visitor account creation script">batch script</a>
+<li>Create a <em>local</em>, <em>non-adminstrator</em> account called <em>johndoe</em>.</li>
+<li>Create a <em>visitor</em> account by running this <a href="https://ashgupta1971.github.io/DualBootLinuxMint/create-visitor-account.bat" title="Visitor account creation script">batch script</a>
 from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER>.</li>
 <li>Enable restore points on the C partition (Windows 10 disables them by default).</li>
-<li>Delete the hidden file <em>C:\Users\ashish\Music\desktop.ini</em> and map the <em>Music</em> partition to this folder.</li>
-<li>Create a folder <em>C:\Users\ashish\Google Drive</em> and map the <em>Google Drive</em> partition to it.</li>
-<li>Create a folder <em>C:\Users\ashish\Shared Documents</em> and map the <em>Shared Documents</em> partition to it.</li>
-<li>Create a folder <em>C:\Users\ashish\Ebooks</em> and map the <em>Ebooks</em> partition to it.</li>
-<li>Create a folder <em>C:\Users\ashish\VirtualBox VMs</em> and map the <em>Windows Virtual Machines</em> partition to it.</li>
-<li>Set permissions for the <em>Data</em> partition so that only <em>admin</em> and <em>ashish</em> can access it.</li>
+<li>Delete the hidden file <em>C:\Users\johndoe\Music\desktop.ini</em> and map the <em>Music</em> partition to this folder.</li>
+<li>Create a folder <em>C:\Users\johndoe\Google Drive</em> and map the <em>Google Drive</em> partition to it.</li>
+<li>Create a folder <em>C:\Users\johndoe\Shared Documents</em> and map the <em>Shared Documents</em> partition to it.</li>
+<li>Create a folder <em>C:\Users\johndoe\Ebooks</em> and map the <em>Ebooks</em> partition to it.</li>
+<li>Create a folder <em>C:\Users\johndoe\VirtualBox VMs</em> and map the <em>Windows Virtual Machines</em> partition to it.</li>
+<li>Set permissions for the <em>Data</em> partition so that only <em>admin</em> and <em>johndoe</em> can access it.</li>
 <li>Connect to the internet, download and install <em>Norton Security</em> and all security updates.</li>
 <li>Install all outstanding Windows 10 updates.</li>
 <li>Download and install the driver and software for your printer.</li>
@@ -251,7 +251,7 @@ in bulk later.</em></p>
 <li>Download and install <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html" title="Oracle Virtualbox"><em>Oracle Virtualbox</em></a>.</li>
 <li>Import all Oracle Virtualbox appliances previously exported.</li>
 <li>Install <a href="http://www.vim.org"><em>gvim</em></a>, download the 
-<a href="https://drive.google.com/open?id=0B5dVa-WB01h5c2xLd0FzX0x2d00" title="_vimrc.txt"><em>vimrc</em> configuration file</a> and copy it to <em>C:\Users\ashish\_vimrc</em>.</li>
+<a href="https://github.com/ashgupta1971/dotfiles/vim/.vimrc" title=".vimrc"><em>vimrc</em> configuration file</a> and copy it to <em>C:\Users\johndoe\_vimrc</em>.</li>
 <li>Remove unnecessary programs from startup using Windows' <em>msconfig</em> utility.</li>
 <li>Configure the desktop as desired.</li>
 <li>Calibrate the display using Windows' <em>calibrate</em> utility.</li>
@@ -336,9 +336,9 @@ configuration file:</p>
 <pre><code>$ cd /etc/default
 $ sudo mv grub{,.bak}
 </code></pre></li>
-<li><p>Now download the new <a href="https://drive.google.com/open?id=0B5dVa-WB01h5ZTVxMjJoelhuM2s" title="grub">GRUB configuration file</a>
+<li><p>Now download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/grub" title="grub">GRUB configuration file</a>
 and copy it to <em>/etc/default/grub</em>.</p></li>
-<li><p>Download the <a href="https://drive.google.com/open?id=0B5dVa-WB01h5ZkZyVXJBNUNqZzQ" title="grub_background.png">GRUB background image</a>
+<li><p>Download the <a href="https://ashgupta1971.github.io/DualBootLinuxMint/grub_background.png" title="grub_background.png">GRUB background image</a>
 and copy it to <em>/boot/grub/grub_background.png</em>.</p></li>
 <li><p>Now install the GRUB boot loader:</p>
 
@@ -395,11 +395,11 @@ file <em>/etc/grub.d/40_custom</em>, edit them as desired and save this file.</p
 <h3>Setup the fstab file</h3>
 
 <ol>
-<li>Login as <em>ashish</em>.</li>
-<li><p>Create directories in <em>ashish's</em> home folder for Oracle Virtualbox and wallpapers:</p>
+<li>Login as <em>johndoe</em>.</li>
+<li><p>Create directories in <em>johndoe's</em> home folder for Oracle Virtualbox and wallpapers:</p>
 
-<pre><code>$ mkdir /home/ashish/VirtualBox\ VMs
-$ mkdir /home/ashish/Wallpaper
+<pre><code>$ mkdir /home/johndoe/VirtualBox\ VMs
+$ mkdir /home/johndoe/Wallpaper
 </code></pre></li>
 <li><p>Make a backup of the existing <em>/etc/fstab</em> file (this contains all the mount
 points for the system):</p>
@@ -407,9 +407,10 @@ points for the system):</p>
 <pre><code>$ cd /etc
 $ sudo mv fstab{,.bak}
 </code></pre></li>
-<li><p>Download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/fstab"><em>fstab</em> file</a>
+<li><p>Download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/fstab" title="fstab"><em>fstab</em> file</a>
 and copy it to <em>/etc/fstab</em>.</p></li>
-<li><p>Setup all the mount points in the <em>fstab</em> file and mount them using the command:</p>
+<li><p>Setup all the mount points in the <em>fstab</em> file and mount them using the command (note that the
+UUID numbers for your system will be different than the ones in this file):</p>
 
 <pre><code>$ sudo mount -a
 </code></pre></li>
@@ -423,7 +424,7 @@ and perform any of the customizations mentioned.</p>
 <h3>Install and Configure Remaining Linux Mint Packages</h3>
 
 <ol>
-<li>Perform any GUI customizations to <em>ashish's</em> desktop that you wish.</li>
+<li>Perform any GUI customizations to <em>johndoe's</em> desktop that you wish.</li>
 <li><p>Before installing the remaining packages, update the package database:</p>
 
 <pre><code>$ sudo apt-get update
@@ -436,9 +437,9 @@ and perform any of the customizations mentioned.</p>
 <li><p>Install the Z Shell:</p>
 
 <pre><code>$ sudo apt-get install zsh zsh-docs
-$ chsh -s /usr/bin/zsh ashish
+$ chsh -s /usr/bin/zsh johndoe
 </code></pre></li>
-<li><p>Copy the following Z Shell configuration files to <em>ashish's</em> home directory: </p>
+<li><p>Copy the following Z Shell configuration files to <em>johndoe's</em> home directory: </p>
 
 <ul>
 <li>get .zshrc from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5RkpWQ0owVGhoMW8" title=".zshrc">here</a> and copy it to <em>~/.zshrc</em> </li>
@@ -549,7 +550,7 @@ Place this file in <em>/etc/systemd/system</em>. Then execute the following comm
 <h4>Setup Oracle Virtualbox</h4>
 
 <ol>
-<li>Download Oracle Virtualbox from <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html">here</a>.</li>
+<li>Download <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html" title="Oracle Virtualbox">Oracle Virtualbox</a>.</li>
 <li><p>Install it with the command:</p>
 
 <pre><code>$ sudo dpkg -i &lt;path to .deb file&gt;
@@ -572,9 +573,9 @@ boot partition and 350 GiB main partition).</p>
 <h2>Restore Data from Backups</h2>
 
 <ol>
-<li>Restore all music to the folder <em>C:\Users\ashish\Music</em>.</li>
-<li>Restore all ebooks to the folder <em>C:\Users\ashish\Ebooks</em>.</li>
-<li>Download all files from <em>ashish's</em> Google Drive account into the folder <em>C:\Users\ashish\Google Drive</em>.</li>
+<li>Restore all music to the folder <em>C:\Users\johndoe\Music</em>.</li>
+<li>Restore all ebooks to the folder <em>C:\Users\johndoe\Ebooks</em>.</li>
+<li>Download all files from <em>johndoe's</em> Google Drive account into the folder <em>C:\Users\johndoe\Google Drive</em>.</li>
 <li>Restore the contents of the <em>Data</em> partition.</li>
-<li>Copy the <em>Suresh.kdbx</em> password file back to the folder <em>C:\Users\ashish\Shared Documents</em>.</li>
+<li>Copy the <em>Suresh.kdbx</em> password file back to the folder <em>C:\Users\johndoe\Shared Documents</em>.</li>
 </ol>

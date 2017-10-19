@@ -87,7 +87,7 @@ Backup the following items from your storage device:
 * *Music* folder
 * *Google Drive* folder
 * any folders in the *Data* partition
-* the *Ashish.kdbx* password file
+* the *johndoe.kdbx* password file
 * export all Oracle Virtualbox VMs as appliances to an external drive
 
 ## Deactivate Norton Security
@@ -176,16 +176,16 @@ have chosen.*
     * audio
     * USB 3
     * graphics card
-1. Create a *local*, *non-adminstrator* account called *ashish*.
-1. Create a *visitor* account by running this [batch script](https://drive.google.com/open?id=0B5dVa-WB01h5OEMtTlh2MGNxdU0 "Visitor account creation script")
+1. Create a *local*, *non-adminstrator* account called *johndoe*.
+1. Create a *visitor* account by running this [batch script](https://ashgupta1971.github.io/DualBootLinuxMint/create-visitor-account.bat "Visitor account creation script")
  from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER>.
 1. Enable restore points on the C partition (Windows 10 disables them by default).
-1. Delete the hidden file *C:\Users\ashish\Music\desktop.ini* and map the *Music* partition to this folder.
-1. Create a folder *C:\Users\ashish\Google Drive* and map the *Google Drive* partition to it.
-1. Create a folder *C:\Users\ashish\Shared Documents* and map the *Shared Documents* partition to it.
-1. Create a folder *C:\Users\ashish\Ebooks* and map the *Ebooks* partition to it.
-1. Create a folder *C:\Users\ashish\VirtualBox VMs* and map the *Windows Virtual Machines* partition to it.
-1. Set permissions for the *Data* partition so that only *admin* and *ashish* can access it.
+1. Delete the hidden file *C:\Users\johndoe\Music\desktop.ini* and map the *Music* partition to this folder.
+1. Create a folder *C:\Users\johndoe\Google Drive* and map the *Google Drive* partition to it.
+1. Create a folder *C:\Users\johndoe\Shared Documents* and map the *Shared Documents* partition to it.
+1. Create a folder *C:\Users\johndoe\Ebooks* and map the *Ebooks* partition to it.
+1. Create a folder *C:\Users\johndoe\VirtualBox VMs* and map the *Windows Virtual Machines* partition to it.
+1. Set permissions for the *Data* partition so that only *admin* and *johndoe* can access it.
 1. Connect to the internet, download and install *Norton Security* and all security updates.
 1. Install all outstanding Windows 10 updates.
 1. Download and install the driver and software for your printer.
@@ -224,7 +224,7 @@ in bulk later.*
 1. Download and install [*Oracle Virtualbox*](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
 1. Import all Oracle Virtualbox appliances previously exported.
 1. Install [*gvim*](http://www.vim.org), download the 
-[*vimrc* configuration file](https://drive.google.com/open?id=0B5dVa-WB01h5c2xLd0FzX0x2d00 "_vimrc.txt") and copy it to *C:\Users\ashish\\_vimrc*.
+[*vimrc* configuration file](https://github.com/ashgupta1971/dotfiles/vim/.vimrc ".vimrc") and copy it to *C:\Users\johndoe\\_vimrc*.
 1. Remove unnecessary programs from startup using Windows' *msconfig* utility.
 1. Configure the desktop as desired.
 1. Calibrate the display using Windows' *calibrate* utility.
@@ -303,10 +303,10 @@ configuration file:
         $ cd /etc/default
         $ sudo mv grub{,.bak}
 
-1. Now download the new [GRUB configuration file](https://drive.google.com/open?id=0B5dVa-WB01h5ZTVxMjJoelhuM2s "grub")
+1. Now download the new [GRUB configuration file](https://ashgupta1971.github.io/DualBootLinuxMint/grub "grub")
  and copy it to */etc/default/grub*.
 
-1. Download the [GRUB background image](https://drive.google.com/open?id=0B5dVa-WB01h5ZkZyVXJBNUNqZzQ "grub_background.png")
+1. Download the [GRUB background image](https://ashgupta1971.github.io/DualBootLinuxMint/grub_background.png "grub_background.png")
 and copy it to */boot/grub/grub_background.png*.
 
 1. Now install the GRUB boot loader:
@@ -358,11 +358,11 @@ Reboot to see the new GRUB boot loader menu.
 
 ### Setup the fstab file
 
-1. Login as *ashish*.
-1. Create directories in *ashish's* home folder for Oracle Virtualbox and wallpapers:
+1. Login as *johndoe*.
+1. Create directories in *johndoe's* home folder for Oracle Virtualbox and wallpapers:
 
-        $ mkdir /home/ashish/VirtualBox\ VMs
-        $ mkdir /home/ashish/Wallpaper
+        $ mkdir /home/johndoe/VirtualBox\ VMs
+        $ mkdir /home/johndoe/Wallpaper
 
 1. Make a backup of the existing */etc/fstab* file (this contains all the mount
 points for the system):
@@ -370,9 +370,10 @@ points for the system):
         $ cd /etc
         $ sudo mv fstab{,.bak}
 
-1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/fstab)
+1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/fstab "fstab")
  and copy it to */etc/fstab*.
-1. Setup all the mount points in the *fstab* file and mount them using the command:
+1. Setup all the mount points in the *fstab* file and mount them using the command (note that the
+UUID numbers for your system will be different than the ones in this file):
 
         $ sudo mount -a
 
@@ -383,7 +384,7 @@ and perform any of the customizations mentioned.
 
 ### Install and Configure Remaining Linux Mint Packages
 
-1. Perform any GUI customizations to *ashish's* desktop that you wish.
+1. Perform any GUI customizations to *johndoe's* desktop that you wish.
 1. Before installing the remaining packages, update the package database:
     
         $ sudo apt-get update
@@ -393,9 +394,9 @@ and perform any of the customizations mentioned.
 1. Install the Z Shell:
 
         $ sudo apt-get install zsh zsh-docs
-        $ chsh -s /usr/bin/zsh ashish
+        $ chsh -s /usr/bin/zsh johndoe
 
-1. Copy the following Z Shell configuration files to *ashish's* home directory: 
+1. Copy the following Z Shell configuration files to *johndoe's* home directory: 
 
     * get .zshrc from [here](https://drive.google.com/open?id=0B5dVa-WB01h5RkpWQ0owVGhoMW8 ".zshrc") and copy it to *~/.zshrc* 
     * get .more\_aliases from [here](https://drive.google.com/open?id=0B5dVa-WB01h5cDFFYVpfTlRUWnM ".more_aliases") and copy it to *~/.more\_aliases* 
@@ -495,7 +496,7 @@ Place this file in */etc/systemd/system*. Then execute the following commands:
 
 #### Setup Oracle Virtualbox
 
-1. Download Oracle Virtualbox from [here](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html).
+1. Download [Oracle Virtualbox](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
 1. Install it with the command:
 
         $ sudo dpkg -i <path to .deb file>
@@ -516,8 +517,8 @@ boot partition and 350 GiB main partition).
 
 ## Restore Data from Backups
 
-1. Restore all music to the folder *C:\Users\ashish\Music*.
-1. Restore all ebooks to the folder *C:\Users\ashish\Ebooks*.
-1. Download all files from *ashish's* Google Drive account into the folder *C:\Users\ashish\Google Drive*.
+1. Restore all music to the folder *C:\Users\johndoe\Music*.
+1. Restore all ebooks to the folder *C:\Users\johndoe\Ebooks*.
+1. Download all files from *johndoe's* Google Drive account into the folder *C:\Users\johndoe\Google Drive*.
 1. Restore the contents of the *Data* partition.
-1. Copy the *Suresh.kdbx* password file back to the folder *C:\Users\ashish\Shared Documents*.
+1. Copy the *Suresh.kdbx* password file back to the folder *C:\Users\johndoe\Shared Documents*.
