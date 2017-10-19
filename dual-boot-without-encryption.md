@@ -521,4 +521,4 @@ boot partition and 350 GiB main partition).
 1. Restore all ebooks to the folder *C:\Users\johndoe\Ebooks*.
 1. Download all files from *johndoe's* Google Drive account into the folder *C:\Users\johndoe\Google Drive*.
 1. Restore the contents of the *Data* partition.
-1. Copy the *Suresh.kdbx* password file back to the folder *C:\Users\johndoe\Shared Documents*.
+1. Copy the *johndoe.kdbx* password file back to the folder *C:\Users\johndoe\Shared Documents*.
