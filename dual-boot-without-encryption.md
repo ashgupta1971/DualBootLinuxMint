@@ -447,7 +447,7 @@ and playlist directories:
 
         $ sudo apt-get install ncmpcpp
 
-1. Copy the *ncmpcpp* configuration file from [here](https://drive.google.com/open?id=0B5dVa-WB01h5YmdESDhNS1dnbzg "config") to *~/.config/ncmpcpp/config*.
+1. Download the *ncmpcpp* configuration file [*config*](config "config") and copy it to *~/.config/ncmpcpp/config*.
 
 #### Setup the i3 Window Manager
 
@@ -459,8 +459,7 @@ and playlist directories:
 
         $ mkdir -p ~/.config/i3/
 
-1. Copy the *i3 Window Manager* configuration file from [here](https://drive.google.com/open?id=0B5dVa-WB01h5emU2ZnNCZ0RaMTA "config") to
-*~/.config/i3/config*.
+1. Download the *i3 Window Manager* configuration file [*config*](config "config") and copy it to *~/.config/i3/config*.
 
 1. Install the *i3 Window Manager status bar* and create its configuration directory:
 
@@ -469,9 +468,8 @@ and playlist directories:
 
 1. Configure the status bar:
 
-    * download its configuration file from [here](https://drive.google.com/open?id=0B5dVa-WB01h5UnR5b1h6am5LZGM "config") to *~/.config/i3status/config*
-    * download the custom status bar configuration script from [here](https://drive.google.com/open?id=0B5dVa-WB01h5RVc2MzFIR0xaR1k "myi3status.sh")
- to *~/.config/i3status/myi3status.sh*
+    * download its configuration file [*config*](config "config") and copy it to *~/.config/i3status/config*
+    * download the custom status bar configuration script [*myi3status.sh*](myi3status.sh "myi3status.sh") and copy it to *~/.config/i3status/myi3status.sh*
 
 1. Install the compositor *compton* (which handles window transparency), 
 *i3lock* lock screen, *rofi* application launcher and *feh* wallpaper manager:
@@ -500,8 +498,7 @@ To launch mediatomb in daemon mode, enter the following command:
 
         $ mediatomb --port 49152 --daemon --home ~/Music --logfile ~/.mediatomb/mediatomb.log --config ~/.mediatomb/config.xml
 
-If you want mediatomb to start automatically at boot then you will have to create a systemd unit file which
-you can download from [here](https://drive.google.com/open?id=0B5dVa-WB01h5NVBONUZ2aDBVYlk "mediatomb.service").
+If you want mediatomb to start automatically at boot then download this [*systemd unit file*](mediatomb.service "mediatomb.service").
 Place this file in */etc/systemd/system*. Then execute the following commands:
 
         $ cd /etc/systemd/system
@@ -526,8 +523,7 @@ Place this file in */etc/systemd/system*. Then execute the following commands:
 Boot from a USB flash drive containing Clonezilla and use it to make
 an image of the 150 GiB Windows 10 partition to an external hard drive.
 
-Do the same for the Linux Mint partitions (this will be the 500 MiB
-boot partition and 350 GiB main partition).
+Do the same for the Linux Mint partition.
 
 *Note: Do not make images of the Google Drive, Music, Ebooks, Data,
  Shared Documents or Virtual Machine partitions.*

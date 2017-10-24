@@ -493,7 +493,7 @@ and playlist directories:</p>
 
 <pre><code>$ sudo apt-get install ncmpcpp
 </code></pre></li>
-<li><p>Copy the <em>ncmpcpp</em> configuration file from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5YmdESDhNS1dnbzg" title="config">here</a> to <em>~/.config/ncmpcpp/config</em>.</p></li>
+<li><p>Download the <em>ncmpcpp</em> configuration file <a href="config" title="config"><em>config</em></a> and copy it to <em>~/.config/ncmpcpp/config</em>.</p></li>
 </ol>
 
 <h4>Setup the i3 Window Manager</h4>
@@ -507,8 +507,7 @@ and playlist directories:</p>
 
 <pre><code>$ mkdir -p ~/.config/i3/
 </code></pre></li>
-<li><p>Copy the <em>i3 Window Manager</em> configuration file from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5emU2ZnNCZ0RaMTA" title="config">here</a> to
-<em>~/.config/i3/config</em>.</p></li>
+<li><p>Download the <em>i3 Window Manager</em> configuration file <a href="config" title="config"><em>config</em></a> and copy it to <em>~/.config/i3/config</em>.</p></li>
 <li><p>Install the <em>i3 Window Manager status bar</em> and create its configuration directory:</p>
 
 <pre><code>$ sudo apt-get install i3status
@@ -517,9 +516,8 @@ $ mkdir -p ~/.config/i3status
 <li><p>Configure the status bar:</p>
 
 <ul>
-<li>download its configuration file from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5UnR5b1h6am5LZGM" title="config">here</a> to <em>~/.config/i3status/config</em></li>
-<li>download the custom status bar configuration script from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5RVc2MzFIR0xaR1k" title="myi3status.sh">here</a>
-to <em>~/.config/i3status/myi3status.sh</em></li>
+<li>download its configuration file <a href="config" title="config"><em>config</em></a> and copy it to <em>~/.config/i3status/config</em></li>
+<li>download the custom status bar configuration script <a href="myi3status.sh" title="myi3status.sh"><em>myi3status.sh</em></a> and copy it to <em>~/.config/i3status/myi3status.sh</em></li>
 </ul></li>
 <li><p>Install the compositor <em>compton</em> (which handles window transparency), 
 <em>i3lock</em> lock screen, <em>rofi</em> application launcher and <em>feh</em> wallpaper manager:</p>
@@ -553,8 +551,7 @@ in the confiuration file that says:</p>
 <pre><code>    $ mediatomb --port 49152 --daemon --home ~/Music --logfile ~/.mediatomb/mediatomb.log --config ~/.mediatomb/config.xml
 </code></pre>
 
-<p>If you want mediatomb to start automatically at boot then you will have to create a systemd unit file which
-you can download from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5NVBONUZ2aDBVYlk" title="mediatomb.service">here</a>.
+<p>If you want mediatomb to start automatically at boot then download this <a href="mediatomb.service" title="mediatomb.service"><em>systemd unit file</em></a>.
 Place this file in <em>/etc/systemd/system</em>. Then execute the following commands:</p>
 
 <pre><code>    $ cd /etc/systemd/system
@@ -582,8 +579,7 @@ Place this file in <em>/etc/systemd/system</em>. Then execute the following comm
 <p>Boot from a USB flash drive containing Clonezilla and use it to make
 an image of the 150 GiB Windows 10 partition to an external hard drive.</p>
 
-<p>Do the same for the Linux Mint partitions (this will be the 500 MiB
-boot partition and 350 GiB main partition).</p>
+<p>Do the same for the Linux Mint partition.</p>
 
 <p><em>Note: Do not make images of the Google Drive, Music, Ebooks, Data,
  Shared Documents or Virtual Machine partitions.</em></p>
