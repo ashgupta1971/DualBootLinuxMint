@@ -7,22 +7,35 @@ This document explains how to setup a dual-boot Windows 10
 and Linux Mint system, without disk encryption, from start 
 to finish. 
 
-It assumes the
-storage device being used is 1 TB in size and may contain
-existing partitions and data in MBR format (not UEFI). 
-This device will be completely
-erased and a fresh install of Windows 10 and Linux Mint will
-be performed (again, in MBR format not UEFI). 
+Here are the assumptions about your system that this document
+makes:
 
+* The storage device being used is 1 TB in size.
+* The storage device will be completely erased and a 
+fresh install of Windows 10 and Linux Mint will be performed.
+* The storage device is in MBR format (not UEFI) and will be
+kept that way.
+* There may be an existing instance of Windows 10 installed 
+along with data that needs to be preserved.
+* You have Norton Security installed and this product needs to
+be deactivated and reinstalled after the fresh install of Windows 10.
+* You have Oracle Virtualbox installed along with one or more virtual
+machines which need to be preserved.
+* Your primary day-to-day operating system will be Linux Mint
+not Windows 10 (the space alloted to the two operating systems
+reflects this assumption).
+* Both the Windows 10 partition and Linux Mint partitions will be
+left unencrypted.
+  
 It doesn't matter which version of Windows 10 
 (32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
-on installing. Also, it is assumed Linux Mint will be your
-primary day-to-day operating system, not Windows 10. Otherwise
-you may want to increase the amount of hard disk space
-allocated to Windows and decrease that allocated to Linux
-Mint.
+on installing. 
 
-All the steps shown assume you are working within a Linux
+This document also shows how to install several useful applications and
+utilities under Windows 10 and Linux Mint. You can skip those that do not
+interest you.
+
+All the steps shown below assume you are working within a Linux
 environment as root (ie. a live CD).
 
 ## Outline of Steps
@@ -68,10 +81,12 @@ Copy them in a folder on the same USB drive containing the Windows 10 ISO.
 ## Download, Verify and Burn Linux Mint ISO File
 
 Download the [Linux Mint ISO file](https://www.linuxmint.com/download.php "Linux Mint ISO Download") of your choice.
-Also download the signature file and verify the ISO image using the command:
+Also download the *sha256 checksum text file*, its associated *signature file* and make a note of the fingerprint for
+the public GPG Linux Mint key. Verify the ISO image using the following commands:
 
-        $ gpg --recv-keys <public key ID> --keyserver <keyserver>
-        $ gpg --verify <signature file> <Linux Mint ISO file>
+        $ sha256sum --ignore-missing -c <Linux Mint ISO file>
+        $ gpg --recv-keys <linux mint public key ID> --keyserver <keyserver>
+        $ gpg --verify <signature file> <sha256 checksum text file>
 
 Burn the ISO file to a USB flash drive as follows:
 

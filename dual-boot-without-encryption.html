@@ -8,22 +8,37 @@
 and Linux Mint system, without disk encryption, from start 
 to finish. </p>
 
-<p>It assumes the
-storage device being used is 1 TB in size and may contain
-existing partitions and data in MBR format (not UEFI). 
-This device will be completely
-erased and a fresh install of Windows 10 and Linux Mint will
-be performed (again, in MBR format not UEFI). </p>
+<p>Here are the assumptions about your system that this document
+makes:</p>
+
+<ul>
+<li>The storage device being used is 1 TB in size.</li>
+<li>The storage device will be completely erased and a 
+fresh install of Windows 10 and Linux Mint will be performed.</li>
+<li>The storage device is in MBR format (not UEFI) and will be
+kept that way.</li>
+<li>There may be an existing instance of Windows 10 installed 
+along with data that needs to be preserved.</li>
+<li>You have Norton Security installed and this product needs to
+be deactivated and reinstalled after the fresh install of Windows 10.</li>
+<li>You have Oracle Virtualbox installed along with one or more virtual
+machines which need to be preserved.</li>
+<li>Your primary day-to-day operating system will be Linux Mint
+not Windows 10 (the space alloted to the two operating systems
+reflects this assumption).</li>
+<li>Both the Windows 10 partition and Linux Mint partitions will be
+left unencrypted.</li>
+</ul>
 
 <p>It doesn't matter which version of Windows 10 
 (32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
-on installing. Also, it is assumed Linux Mint will be your
-primary day-to-day operating system, not Windows 10. Otherwise
-you may want to increase the amount of hard disk space
-allocated to Windows and decrease that allocated to Linux
-Mint.</p>
+on installing. </p>
 
-<p>All the steps shown assume you are working within a Linux
+<p>This document also shows how to install several useful applications and
+utilities under Windows 10 and Linux Mint. You can skip those that do not
+interest you.</p>
+
+<p>All the steps shown below assume you are working within a Linux
 environment as root (ie. a live CD).</p>
 
 <h2>Outline of Steps</h2>
@@ -74,10 +89,12 @@ is normal and just wait for it to finish.</p>
 <h2>Download, Verify and Burn Linux Mint ISO File</h2>
 
 <p>Download the <a href="https://www.linuxmint.com/download.php" title="Linux Mint ISO Download">Linux Mint ISO file</a> of your choice.
-Also download the signature file and verify the ISO image using the command:</p>
+Also download the <em>sha256 checksum text file</em>, its associated <em>signature file</em> and make a note of the fingerprint for
+the public GPG Linux Mint key. Verify the ISO image using the following commands:</p>
 
-<pre><code>    $ gpg --recv-keys &lt;public key ID&gt; --keyserver &lt;keyserver&gt;
-    $ gpg --verify &lt;signature file&gt; &lt;Linux Mint ISO file&gt;
+<pre><code>    $ sha256sum --ignore-missing -c &lt;Linux Mint ISO file&gt;
+    $ gpg --recv-keys &lt;linux mint public key ID&gt; --keyserver &lt;keyserver&gt;
+    $ gpg --verify &lt;signature file&gt; &lt;sha256 checksum text file&gt;
 </code></pre>
 
 <p>Burn the ISO file to a USB flash drive as follows:</p>
