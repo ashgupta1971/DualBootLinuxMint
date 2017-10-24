@@ -36,8 +36,8 @@ This document also shows how to install several useful applications and
 utilities under Windows 10 and Linux Mint. You can skip those that do not
 interest you.
 
-All the steps shown below assume you are working within a Linux
-environment as root (ie. a live CD).
+All the steps shown below assume you are working within a Linux Mint live
+environment as root.
 
 ## Outline of Steps
 
