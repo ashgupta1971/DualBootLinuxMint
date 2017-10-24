@@ -409,7 +409,7 @@ and perform any of the customizations mentioned.
 
 Execute the following command in *johndoe's* home directory:
 
-        $ git clone https://github.com/ashgupta1971/dotfiles
+        $ git clone https://github.com/ashgupta1971/dotfiles.git
 
 #### Setup the Shell, Editor and File Browser
 
