@@ -10,6 +10,7 @@ Here are the assumptions about your system that this document
 makes:
 
 * The storage device being used is 1 TB in size.
+* The storage device is a hard disk drive, not a SSD.
 * The storage device will be completely erased and a 
 fresh install of Windows 10 and Linux Mint will be performed.
 * The storage device is in MBR format (not UEFI) and will be
@@ -154,7 +155,7 @@ all changes and exit the utility.
 Create the following partitions on the storage device using fdisk (use
 a partition type of "7" for NTFS partitions):
 
-1. a 150 GiB *Windows 10* primary partition formatted as *NTFS*
+1. a 100 GiB *Windows 10* primary partition formatted as *NTFS*
 1. a 450 GiB *Linux Mint* unformatted, logical partition
 1. a 25 GiB *Shared Documents* logical partition formatted as *NTFS*
 1. a 25 GiB *Music* logical partition formatted as *NTFS*
@@ -163,7 +164,7 @@ a partition type of "7" for NTFS partitions):
 1. a 50 GiB *Windows Virtual Machines* logical partition formatted as *NTFS*
 1. a 200 GiB *Data* logical partition formatted as *NTFS*
 
-This will leave approximately 65 GiB of empty space on the storage
+This will leave approximately 50 GB of empty space on the storage
 device for future use.
 
 To format partitions with the NTFS file system, use the command:
