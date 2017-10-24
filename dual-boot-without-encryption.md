@@ -447,7 +447,7 @@ and playlist directories:
 
         $ sudo apt-get install ncmpcpp
 
-1. Download the *ncmpcpp* configuration file [*config*](config "config") and copy it to *~/.config/ncmpcpp/config*.
+1. Download the *ncmpcpp* configuration file [*config*](config "ncmpcpp config file") and copy it to *~/.config/ncmpcpp/config*.
 
 #### Setup the i3 Window Manager
 
@@ -459,7 +459,7 @@ and playlist directories:
 
         $ mkdir -p ~/.config/i3/
 
-1. Download the *i3 Window Manager* configuration file [*config*](config "config") and copy it to *~/.config/i3/config*.
+1. Download the *i3 Window Manager* configuration file [*config*](config "i3wm config file") and copy it to *~/.config/i3/config*.
 
 1. Install the *i3 Window Manager status bar* and create its configuration directory:
 
@@ -468,7 +468,7 @@ and playlist directories:
 
 1. Configure the status bar:
 
-    * download its configuration file [*config*](config "config") and copy it to *~/.config/i3status/config*
+    * download its configuration file [*config*](config "i3wm status bar config file") and copy it to *~/.config/i3status/config*
     * download the custom status bar configuration script [*myi3status.sh*](myi3status.sh "myi3status.sh") and copy it to *~/.config/i3status/myi3status.sh*
 
 1. Install the compositor *compton* (which handles window transparency), 
