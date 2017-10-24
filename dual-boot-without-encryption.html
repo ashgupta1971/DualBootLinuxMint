@@ -5,8 +5,7 @@
 <h2>Introduction</h2>
 
 <p>This document explains how to setup a dual-boot Windows 10
-and Linux Mint system, without disk encryption, from start 
-to finish. </p>
+and Linux Mint system from start to finish. </p>
 
 <p>Here are the assumptions about your system that this document
 makes:</p>
@@ -19,6 +18,8 @@ fresh install of Windows 10 and Linux Mint will be performed.</li>
 kept that way.</li>
 <li>There may be an existing instance of Windows 10 installed 
 along with data that needs to be preserved.</li>
+<li>The data which needs to be preserved will be placed in separate
+partitions (ie. for music, google drive data, etc.).</li>
 <li>You have Norton Security installed and this product needs to
 be deactivated and reinstalled after the fresh install of Windows 10.</li>
 <li>You have Oracle Virtualbox installed along with one or more virtual
@@ -89,11 +90,11 @@ is normal and just wait for it to finish.</p>
 <h2>Download, Verify and Burn Linux Mint ISO File</h2>
 
 <p>Download the <a href="https://www.linuxmint.com/download.php" title="Linux Mint ISO Download">Linux Mint ISO file</a> of your choice.
-Also download the <em>sha256 checksum text file</em>, its associated <em>signature file</em> and make a note of the fingerprint for
-the public GPG Linux Mint key. Verify the ISO image using the following commands:</p>
+Also download the <em>sha256 checksum text file</em>, its associated <em>signature file</em> and make a note of the <em>fingerprint</em> for
+the <em>public GPG Linux Mint key</em>. Verify the ISO image using the following commands:</p>
 
 <pre><code>    $ sha256sum --ignore-missing -c &lt;Linux Mint ISO file&gt;
-    $ gpg --recv-keys &lt;linux mint public key ID&gt; --keyserver &lt;keyserver&gt;
+    $ gpg --recv-key &lt;linux mint public key fingerprint&gt; --keyserver keyserver.ubuntu.com
     $ gpg --verify &lt;signature file&gt; &lt;sha256 checksum text file&gt;
 </code></pre>
 
@@ -448,6 +449,13 @@ and perform any of the customizations mentioned.</p>
 </code></pre></li>
 </ol>
 
+<h4>Download Configuration Files from git Repository</h4>
+
+<p>Execute the following command in <em>johndoe's</em> home directory:</p>
+
+<pre><code>    $ git clone https://github.com/ashgupta1971/dotfiles
+</code></pre>
+
 <h4>Setup the Shell, Editor and File Browser</h4>
 
 <ol>
@@ -456,13 +464,7 @@ and perform any of the customizations mentioned.</p>
 <pre><code>$ sudo apt-get install zsh zsh-docs
 $ chsh -s /usr/bin/zsh johndoe
 </code></pre></li>
-<li><p>Copy the following Z Shell configuration files to <em>johndoe's</em> home directory: </p>
-
-<ul>
-<li>get .zshrc from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5RkpWQ0owVGhoMW8" title=".zshrc">here</a> and copy it to <em>~/.zshrc</em> </li>
-<li>get .more_aliases from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5cDFFYVpfTlRUWnM" title=".more_aliases">here</a> and copy it to <em>~/.more_aliases</em> </li>
-<li>get .grepoptions from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5QkJuZ0hLTENGZ3c" title=".grepoptions">here</a> and copy it to <em>~/.grepoptions</em></li>
-</ul></li>
+<li><p>Download the Z Shell configuration file <a href=".zshrc" title=".zshrc"><em>.zshrc</em></a> into <em>johndoe's</em> home directory.</p></li>
 <li><p>Install the <em>thunar</em> file browser and configure its settings as desired from its GUI.</p>
 
 <pre><code>$ sudo apt-get install thunar
@@ -471,7 +473,7 @@ $ chsh -s /usr/bin/zsh johndoe
 
 <pre><code>$ sudo apt-get install vim-gtk
 </code></pre></li>
-<li><p>Get the vim configuration file from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5TkVlSm15eFFoWVE" title=".vimrc">here</a> and copy it to <em>~/.vimrc</em>.</p></li>
+<li><p>Get the vim configuration file <a href=".vimrc" title=".vimrc"><em>.vimrc</em></a> and copy it to <em>johndoe's</em> home directory.</p></li>
 </ol>
 
 <h4>Setup the Music Player</h4>
@@ -486,8 +488,7 @@ and playlist directories:</p>
 
 <pre><code>$ mkdir -p ~/.config/mpd/playlists
 </code></pre></li>
-<li><p>Next, copy the <em>Music Player Daemon</em> configuration file from <a href="https://drive.google.com/open?id=0B5dVa-WB01h5QkNHV3ZXQndtSjg" title="mpd.conf">here</a>
-to <em>~/.config/mpd/mpd.conf</em></p></li>
+<li><p>Next, download the <em>Music Player Daemon</em> configuration file <a href="mpd.conf" title="mpd.conf"><em>mpd.conf</em></a> and copy it to <em>~/.config/mpd/mpd.conf</em></p></li>
 <li><p>Install the <em>ncmpcpp</em> music player client:</p>
 
 <pre><code>$ sudo apt-get install ncmpcpp

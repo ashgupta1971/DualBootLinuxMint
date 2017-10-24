@@ -4,8 +4,7 @@
 ## Introduction
 
 This document explains how to setup a dual-boot Windows 10
-and Linux Mint system, without disk encryption, from start 
-to finish. 
+and Linux Mint system from start to finish. 
 
 Here are the assumptions about your system that this document
 makes:
@@ -17,6 +16,8 @@ fresh install of Windows 10 and Linux Mint will be performed.
 kept that way.
 * There may be an existing instance of Windows 10 installed 
 along with data that needs to be preserved.
+* The data which needs to be preserved will be placed in separate
+partitions (ie. for music, google drive data, etc.).
 * You have Norton Security installed and this product needs to
 be deactivated and reinstalled after the fresh install of Windows 10.
 * You have Oracle Virtualbox installed along with one or more virtual
@@ -81,11 +82,11 @@ Copy them in a folder on the same USB drive containing the Windows 10 ISO.
 ## Download, Verify and Burn Linux Mint ISO File
 
 Download the [Linux Mint ISO file](https://www.linuxmint.com/download.php "Linux Mint ISO Download") of your choice.
-Also download the *sha256 checksum text file*, its associated *signature file* and make a note of the fingerprint for
-the public GPG Linux Mint key. Verify the ISO image using the following commands:
+Also download the *sha256 checksum text file*, its associated *signature file* and make a note of the *fingerprint* for
+the *public GPG Linux Mint key*. Verify the ISO image using the following commands:
 
         $ sha256sum --ignore-missing -c <Linux Mint ISO file>
-        $ gpg --recv-keys <linux mint public key ID> --keyserver <keyserver>
+        $ gpg --recv-key <linux mint public key fingerprint> --keyserver keyserver.ubuntu.com
         $ gpg --verify <signature file> <sha256 checksum text file>
 
 Burn the ISO file to a USB flash drive as follows:
@@ -404,6 +405,12 @@ and perform any of the customizations mentioned.
     
         $ sudo apt-get update
 
+#### Download Configuration Files from git Repository
+
+Execute the following command in *johndoe's* home directory:
+
+        $ git clone https://github.com/ashgupta1971/dotfiles
+
 #### Setup the Shell, Editor and File Browser
 
 1. Install the Z Shell:
@@ -411,11 +418,7 @@ and perform any of the customizations mentioned.
         $ sudo apt-get install zsh zsh-docs
         $ chsh -s /usr/bin/zsh johndoe
 
-1. Copy the following Z Shell configuration files to *johndoe's* home directory: 
-
-    * get .zshrc from [here](https://drive.google.com/open?id=0B5dVa-WB01h5RkpWQ0owVGhoMW8 ".zshrc") and copy it to *~/.zshrc* 
-    * get .more\_aliases from [here](https://drive.google.com/open?id=0B5dVa-WB01h5cDFFYVpfTlRUWnM ".more_aliases") and copy it to *~/.more\_aliases* 
-    * get .grepoptions from [here](https://drive.google.com/open?id=0B5dVa-WB01h5QkJuZ0hLTENGZ3c ".grepoptions") and copy it to *~/.grepoptions*
+1. Download the Z Shell configuration file [*.zshrc*](.zshrc ".zshrc") into *johndoe's* home directory.
 
 1. Install the *thunar* file browser and configure its settings as desired from its GUI.
 
@@ -425,7 +428,7 @@ and perform any of the customizations mentioned.
 
         $ sudo apt-get install vim-gtk
 
-1. Get the vim configuration file from [here](https://drive.google.com/open?id=0B5dVa-WB01h5TkVlSm15eFFoWVE ".vimrc") and copy it to *~/.vimrc*.
+1. Get the vim configuration file [*.vimrc*](.vimrc ".vimrc") and copy it to *johndoe's* home directory.
 
 #### Setup the Music Player
 
@@ -438,8 +441,7 @@ and playlist directories:
 
         $ mkdir -p ~/.config/mpd/playlists
 
-1. Next, copy the *Music Player Daemon* configuration file from [here](https://drive.google.com/open?id=0B5dVa-WB01h5QkNHV3ZXQndtSjg "mpd.conf")
-to *~/.config/mpd/mpd.conf*
+1. Next, download the *Music Player Daemon* configuration file [*mpd.conf*](mpd.conf "mpd.conf") and copy it to *~/.config/mpd/mpd.conf*
 
 1. Install the *ncmpcpp* music player client:
 
