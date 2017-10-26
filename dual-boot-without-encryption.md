@@ -429,7 +429,7 @@ Execute the following command in *johndoe's* home directory:
 
         $ sudo apt-get install vim-gtk
 
-1. Get the vim configuration file [*.vimrc*](vimrc ".vimrc") and copy it to *johndoe's* home directory.
+1. Get the vim configuration file [*.vimrc*](\.vimrc ".vimrc") and copy it to *johndoe's* home directory.
 
 #### Setup the Music Player
 
