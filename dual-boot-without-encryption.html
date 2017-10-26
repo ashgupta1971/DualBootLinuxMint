@@ -92,9 +92,10 @@ is normal and just wait for it to finish.</p>
 
 <p>Download the <a href="https://www.linuxmint.com/download.php" title="Linux Mint ISO Download">Linux Mint ISO file</a> of your choice.
 Also download the <em>sha256 checksum text file</em>, its associated <em>signature file</em> and make a note of the <em>fingerprint</em> for
-the <em>public GPG Linux Mint key</em>. Verify the ISO image using the following commands:</p>
+the <em>public GPG Linux Mint key</em>. Verify the ISO image using the following commands (these must be run inside the directory
+containing the Linux Mint ISO file):</p>
 
-<pre><code>    $ sha256sum --ignore-missing -c &lt;Linux Mint ISO file&gt;
+<pre><code>    $ sha256sum --ignore-missing -c &lt;sha256 checksum text file&gt;
     $ gpg --recv-key &lt;linux mint public key fingerprint&gt; --keyserver keyserver.ubuntu.com
     $ gpg --verify &lt;signature file&gt; &lt;sha256 checksum text file&gt;
 </code></pre>

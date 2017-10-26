@@ -84,9 +84,10 @@ Copy them in a folder on the same USB drive containing the Windows 10 ISO.
 
 Download the [Linux Mint ISO file](https://www.linuxmint.com/download.php "Linux Mint ISO Download") of your choice.
 Also download the *sha256 checksum text file*, its associated *signature file* and make a note of the *fingerprint* for
-the *public GPG Linux Mint key*. Verify the ISO image using the following commands:
+the *public GPG Linux Mint key*. Verify the ISO image using the following commands (these must be run inside the directory
+containing the Linux Mint ISO file):
 
-        $ sha256sum --ignore-missing -c <Linux Mint ISO file>
+        $ sha256sum --ignore-missing -c <sha256 checksum text file>
         $ gpg --recv-key <linux mint public key fingerprint> --keyserver keyserver.ubuntu.com
         $ gpg --verify <signature file> <sha256 checksum text file>
 
