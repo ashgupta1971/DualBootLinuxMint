@@ -241,7 +241,7 @@ in bulk later.*
 1. Download and install [*Oracle Virtualbox*](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
 1. Import all Oracle Virtualbox appliances previously exported.
 1. Install [*gvim*](http://www.vim.org), download the 
-[*vimrc* configuration file](dotfiles/vim/.vimrc ".vimrc") and copy it to *C:\Users\johndoe\\_vimrc*.
+[*vimrc* configuration file](../dotfiles/vim/.vimrc ".vimrc") and copy it to *C:\Users\johndoe\\_vimrc*.
 1. Remove unnecessary programs from startup using Windows' *msconfig* utility.
 1. Configure the desktop as desired.
 1. Calibrate the display using Windows' *calibrate* utility.
@@ -429,7 +429,7 @@ Execute the following command in *johndoe's* home directory:
 
         $ sudo apt-get install vim-gtk
 
-1. Get the vim configuration file [*.vimrc*](.vimrc ".vimrc") and copy it to *johndoe's* home directory.
+1. Get the vim configuration file [*.vimrc*](../DualBootLinuxMint/.vimrc ".vimrc") and copy it to *johndoe's* home directory.
 
 #### Setup the Music Player
 
