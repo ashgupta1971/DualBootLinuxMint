@@ -195,7 +195,7 @@ have chosen.*
     * USB 3
     * graphics card
 1. Create a *local*, *non-adminstrator* account called *johndoe*.
-1. Create a *visitor* account by running this [batch script](https://ashgupta1971.github.io/DualBootLinuxMint/create-visitor-account.bat "Visitor account creation script")
+1. Create a *visitor* account by running this [batch script](https://ashgupta1971.github.io/DualBootLinuxMint/Common/create-visitor-account.bat "Visitor account creation script")
  from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER>.
 1. Enable restore points on the C partition (Windows 10 disables them by default).
 1. Delete the hidden file *C:\Users\johndoe\Music\desktop.ini* and map the *Music* partition to this folder.
@@ -242,7 +242,7 @@ in bulk later.*
 1. Download and install [*Oracle Virtualbox*](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
 1. Import all Oracle Virtualbox appliances previously exported.
 1. Install [*gvim*](http://www.vim.org), download the 
-[*vimrc* configuration file](../dotfiles/vim/.vimrc ".vimrc") and copy it to *C:\Users\johndoe\\_vimrc*.
+[*vimrc* configuration file](https://github.com/ashgupta1971/dotfiles/blob/master/vim/.vimrc ".vimrc") and copy it to *C:\Users\johndoe\\_vimrc*.
 1. Remove unnecessary programs from startup using Windows' *msconfig* utility.
 1. Configure the desktop as desired.
 1. Calibrate the display using Windows' *calibrate* utility.
