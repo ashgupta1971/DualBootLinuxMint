@@ -448,13 +448,13 @@ and playlist directories:
 
         $ mkdir -p ~/.config/mpd/playlists
 
-1. Next, download the *Music Player Daemon* configuration file [*mpd.conf*](https://github.com/ashgupta1971/blob/master/mpd/mpd.conf "mpd.conf") and copy it to *~/.config/mpd/mpd.conf*
+1. Next, download the *Music Player Daemon* configuration file [*mpd.conf*](https://github.com/ashgupta1971/dotfiles/blob/master/mpd/mpd.conf "mpd.conf") and copy it to *~/.config/mpd/mpd.conf*
 
 1. Install the *ncmpcpp* music player client:
 
         $ sudo apt-get install ncmpcpp
 
-1. Download the *ncmpcpp* configuration file [*config*](https://github.com/ashgupta1971/blob/master/ncmpcpp/config "ncmpcpp config file") and copy it to *~/.config/ncmpcpp/config*.
+1. Download the *ncmpcpp* configuration file [*config*](https://github.com/ashgupta1971/dotfiles/blob/master/ncmpcpp/config "ncmpcpp config file") and copy it to *~/.config/ncmpcpp/config*.
 
 #### Setup the i3 Window Manager
 
@@ -466,7 +466,7 @@ and playlist directories:
 
         $ mkdir -p ~/.config/i3/
 
-1. Download the *i3 Window Manager* configuration file [*config*](https://github.com/ashgupta1971/blob/master/i3/config "i3wm config file") and copy it to *~/.config/i3/config*.
+1. Download the *i3 Window Manager* configuration file [*config*](https://github.com/ashgupta1971/dotfiles/blob/master/i3/config "i3wm config file") and copy it to *~/.config/i3/config*.
 
 1. Install the *i3 Window Manager status bar* and create its configuration directory:
 
@@ -475,8 +475,8 @@ and playlist directories:
 
 1. Configure the status bar:
 
-    * download its configuration file [*config*](https://github.com/ashgupta1971/blob/master/i3status/config "i3wm status bar config file") and copy it to *~/.config/i3status/config*
-    * download the custom status bar configuration script [*myi3status.sh*](https://github.com/ashgupta1971/blob/master/i3status/myi3status.sh "myi3status.sh") and copy it to *~/.config/i3status/myi3status.sh*
+    * download its configuration file [*config*](https://github.com/ashgupta1971/dotfiles/blob/master/i3status/config "i3wm status bar config file") and copy it to *~/.config/i3status/config*
+    * download the custom status bar configuration script [*myi3status.sh*](https://github.com/ashgupta1971/dotfiles/blob/master/i3status/myi3status.sh "myi3status.sh") and copy it to *~/.config/i3status/myi3status.sh*
 
 1. Install the compositor *compton* (which handles window transparency), 
 *i3lock* lock screen, *rofi* application launcher and *feh* wallpaper manager:
