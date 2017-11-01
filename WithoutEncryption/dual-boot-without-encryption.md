@@ -321,10 +321,10 @@ configuration file:
         $ cd /etc/default
         $ sudo mv grub{,.bak}
 
-1. Now download the new [GRUB configuration file](https://ashgupta1971.github.io/DualBootLinuxMint/grub "grub")
+1. Now download the new [GRUB configuration file](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/grub "grub")
  and copy it to */etc/default/grub*.
 
-1. Download the [GRUB background image](https://ashgupta1971.github.io/DualBootLinuxMint/grub_background.png "grub_background.png")
+1. Download the [GRUB background image](https://ashgupta1971.github.io/DualBootLinuxMint/Common/grub_background.png "grub_background.png")
 and copy it to */boot/grub/grub_background.png*.
 
 1. Now install the GRUB boot loader:
@@ -388,7 +388,7 @@ points for the system):
         $ cd /etc
         $ sudo mv fstab{,.bak}
 
-1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/fstab "fstab")
+1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/fstab "fstab")
  and copy it to */etc/fstab*.
 1. Setup all the mount points in the *fstab* file and mount them using the command (note that the
 UUID numbers for your system will be different than the ones in this file):
@@ -411,6 +411,9 @@ and perform any of the customizations mentioned.
 
 Execute the following command in *johndoe's* home directory:
 
+        $ sudo apt-get update && sudo apt-get install git
+        $ git config --global user.name "John Doe"
+        $ git config --global user.email "johndoe@server.com"
         $ git clone https://github.com/ashgupta1971/dotfiles.git
 
 #### Setup the Shell, Editor and File Browser
@@ -420,7 +423,8 @@ Execute the following command in *johndoe's* home directory:
         $ sudo apt-get install zsh zsh-docs
         $ chsh -s /usr/bin/zsh johndoe
 
-1. Download the Z Shell configuration file [*.zshrc*](.zshrc ".zshrc") into *johndoe's* home directory.
+1. Download the Z Shell configuration file [*zshrc*](https://ashgupta1971.github.io/DualBootLinuxMint/Common/zshrc "zshrc") into *johndoe's* home directory
+and rename it *.zshrc*.
 
 1. Install the *thunar* file browser and configure its settings as desired from its GUI.
 
@@ -430,7 +434,8 @@ Execute the following command in *johndoe's* home directory:
 
         $ sudo apt-get install vim-gtk
 
-1. Get the vim configuration file [*.vimrc*](\.vimrc ".vimrc") and copy it to *johndoe's* home directory.
+1. Get the vim configuration file [*vimrc*](https://ashgupta1971.github.io/DualBootLinuxMint/Common/vimrc "vimrc") and copy it to *johndoe's* home directory
+with the name *.vimrc*.
 
 #### Setup the Music Player
 
@@ -443,13 +448,13 @@ and playlist directories:
 
         $ mkdir -p ~/.config/mpd/playlists
 
-1. Next, download the *Music Player Daemon* configuration file [*mpd.conf*](mpd.conf "mpd.conf") and copy it to *~/.config/mpd/mpd.conf*
+1. Next, download the *Music Player Daemon* configuration file [*mpd.conf*](https://ashgupta1971.github.io/dotfiles/blob/master/mpd/mpd.conf "mpd.conf") and copy it to *~/.config/mpd/mpd.conf*
 
 1. Install the *ncmpcpp* music player client:
 
         $ sudo apt-get install ncmpcpp
 
-1. Download the *ncmpcpp* configuration file [*config*](config "ncmpcpp config file") and copy it to *~/.config/ncmpcpp/config*.
+1. Download the *ncmpcpp* configuration file [*config*](https://ashgupta1971.github.io/dotfiles/blob/master/ncmpcpp/config "ncmpcpp config file") and copy it to *~/.config/ncmpcpp/config*.
 
 #### Setup the i3 Window Manager
 
@@ -461,7 +466,7 @@ and playlist directories:
 
         $ mkdir -p ~/.config/i3/
 
-1. Download the *i3 Window Manager* configuration file [*config*](config "i3wm config file") and copy it to *~/.config/i3/config*.
+1. Download the *i3 Window Manager* configuration file [*config*](https://ashgupta1971.github.io/dotfiles/blob/master/i3/config "i3wm config file") and copy it to *~/.config/i3/config*.
 
 1. Install the *i3 Window Manager status bar* and create its configuration directory:
 
@@ -470,8 +475,8 @@ and playlist directories:
 
 1. Configure the status bar:
 
-    * download its configuration file [*config*](config "i3wm status bar config file") and copy it to *~/.config/i3status/config*
-    * download the custom status bar configuration script [*myi3status.sh*](myi3status.sh "myi3status.sh") and copy it to *~/.config/i3status/myi3status.sh*
+    * download its configuration file [*config*](https://ashgupta1971.github.io/dotfiles/blob/master/i3status/config "i3wm status bar config file") and copy it to *~/.config/i3status/config*
+    * download the custom status bar configuration script [*myi3status.sh*](https://ashgupta1971.github.io/dotfiles/blob/master/i3status/myi3status.sh "myi3status.sh") and copy it to *~/.config/i3status/myi3status.sh*
 
 1. Install the compositor *compton* (which handles window transparency), 
 *i3lock* lock screen, *rofi* application launcher and *feh* wallpaper manager:
@@ -500,7 +505,7 @@ To launch mediatomb in daemon mode, enter the following command:
 
         $ mediatomb --port 49152 --daemon --home ~/Music --logfile ~/.mediatomb/mediatomb.log --config ~/.mediatomb/config.xml
 
-If you want mediatomb to start automatically at boot then download this [*systemd unit file*](mediatomb.service "mediatomb.service").
+If you want mediatomb to start automatically at boot then download this [*systemd unit file*](https://ashgupta1971.github.io/dotfiles/blob/master/mediatomb/mediatomb.service "mediatomb.service").
 Place this file in */etc/systemd/system*. Then execute the following commands:
 
         $ cd /etc/systemd/system
