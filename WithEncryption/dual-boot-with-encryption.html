@@ -322,7 +322,7 @@ encrypt all data partitions making sure to use a hash algorithm of <em>SHA256</e
 <li><p>Format the Linux Mint partition for encryption:</p>
 
 <pre><code>$ cryptsetup --type luks format /dev/sd&lt;drive identifier&gt;&lt;partition identifier
-$ cryptsetup --type luke open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
+$ cryptsetup --type luks open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
 </code></pre></li>
 <li><p>Create a physical LVM volume from the <em>Linux Mint</em> partition using the command:</p>
 

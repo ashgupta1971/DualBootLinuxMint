@@ -291,7 +291,7 @@ encrypt all data partitions making sure to use a hash algorithm of *SHA256*.
 1. Format the Linux Mint partition for encryption:
 
         $ cryptsetup --type luks format /dev/sd<drive identifier><partition identifier
-        $ cryptsetup --type luke open /dev/sd<drive identifier><partition identifier> mint_crypt
+        $ cryptsetup --type luks open /dev/sd<drive identifier><partition identifier> mint_crypt
 
 1. Create a physical LVM volume from the *Linux Mint* partition using the command:
 
