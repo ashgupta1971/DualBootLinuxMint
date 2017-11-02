@@ -261,14 +261,21 @@ in bulk later.*
     * Malwarebytes
     * KeePass 2
 
+1. Download and install [*Veracrypt*](https://www.veracrypt.fr/en/Downloads.html "Veracrypt") (do use the portable version).
 1. Download and install [*PDF-XChange Viewer*](https://www.tracker-software.com/product/pdf-xchange-viewer "PDF-XChange Viewer").
 1. Download and install [*Oracle Virtualbox*](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
-1. Import all Oracle Virtualbox appliances previously exported.
 1. Install [*gvim*](http://www.vim.org), download the 
 [*vimrc* configuration file](https://github.com/ashgupta1971/dotfiles/blob/master/vim/.vimrc ".vimrc") and copy it to *C:\Users\johndoe\\_vimrc*.
 1. Remove unnecessary programs from startup using Windows' *msconfig* utility.
+1. Import all Oracle Virtualbox appliances previously exported.
+1. Restore data to all data partitions (ie. music, google drive, etc.).
 1. Configure the desktop as desired.
 1. Calibrate the display using Windows' *calibrate* utility.
+
+#### Encrypt Windows 10 System Partition and Non-system Data Partitions
+
+Follow Veracrypt's wizard to encrypt the Windows 10 system partition. Afterwards,
+encrypt all data partitions making sure to use a hash algorithm of *SHA256*.
 
 ## Install and Configure Linux Mint
 
