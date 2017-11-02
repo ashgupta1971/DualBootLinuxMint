@@ -642,10 +642,22 @@ Place this file in <em>/etc/systemd/system</em>. Then execute the following comm
 <li>Import all the virtualbox appliances previously exported.</li>
 </ol>
 
+<h2>Rewrite Veracrypt Volume Header</h2>
+
+<ol>
+<li>Boot into your system using the Veracrypt rescue disk.</li>
+<li>When prompted, choose the option to rewrite the Veracrypt volume header (key).</li>
+<li>Now enter your password to boot into Windows 10.</li>
+</ol>
+
+<p>Note that you only need to write the Veracrypt volume header once. On subsequent
+boots with the Veracrypt rescue disk, you can just enter your password to reach
+Windows 10.</p>
+
 <h2>Make Separate Images of the Windows 10 and Linux Mint Partitions</h2>
 
 <p>Boot from a USB flash drive containing Clonezilla and use it to make
-an image of the 150 GiB Windows 10 partition to an external hard drive.</p>
+an image of the 100 GiB Windows 10 partition to an external hard drive.</p>
 
 <p>Do the same for the Linux Mint partition.</p>
 
