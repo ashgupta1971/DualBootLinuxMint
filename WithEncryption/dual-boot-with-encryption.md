@@ -1,22 +1,22 @@
-# Setting Up a Dual-Boot Windows 10 and Linux Mint System
+# Setting Up a Dual-Boot Windows 10 and Linux Mint System With Encryption
 * * *
 
 ## Introduction
 
 This document explains how to setup a dual-boot Windows 10
-and Linux Mint system from start to finish. 
+and Linux Mint system, with filesystem encryption, from start to finish. 
 
 Here are the assumptions about your system that this document
 makes:
 
 * The storage device being used is 1 TB in size.
 * The storage device is a hard disk drive, not a SSD.
-* The storage device will be completely erased and a 
-fresh install of Windows 10 and Linux Mint will be performed.
 * The storage device is in MBR format (not UEFI) and will be
 kept that way.
 * There may be an existing instance of Windows 10 installed 
 along with data that needs to be preserved.
+* The storage device will be completely erased and a 
+fresh install of Windows 10 and Linux Mint will be performed.
 * The data which needs to be preserved will be placed in separate
 partitions (ie. for music, google drive data, etc.).
 * You have Norton Security installed and this product needs to
@@ -26,8 +26,6 @@ machines which need to be preserved.
 * Your primary day-to-day operating system will be Linux Mint
 not Windows 10 (the space alloted to the two operating systems
 reflects this assumption).
-* Both the Windows 10 partition and Linux Mint partitions will be
-left unencrypted.
   
 It doesn't matter which version of Windows 10 
 (32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
@@ -50,10 +48,35 @@ environment as root.
 1. Wipe LVM data and partition tables on storage device.
 1. Setup new partitions on storage device.
 1. Install and configure Windows 10.
+1. Restore data partitions (ie. music, google drive, etc.)
+1. Reimport Virtualbox appliances.
+1. Encrypt Windows 10 system partition with Veracrypt.
+1. Encrypt data partitions with Veracrypt.
 1. Install and configure Linux Mint.
-1. Create an image of Windows 10 using Clonezilla.
-1. Create an image of Linux Mint using Clonezilla.
-1. Restore all data from backups.
+
+## Caveats
+
+To boot into a Windows 10 system which has been encrypted with
+Veryacrypt, the Veracrypt boot loader must be used. However, the
+Veracrypt boot loader cannot recognize Linux Mint on the same system
+if the Linux Mint partition has been encrypted. Also, the Linux Mint
+boot loader, GRUB, cannot recognize a Windows 10 system partition encrypted
+with Veracrypt.
+
+To resolve this problem, we will create a Veracrypt rescue CD containing
+the Veracrypt boot loader and use this disk to boot into Windows 10
+whenever required. 
+
+When we are finished, the storage device's MBR will contain Linux
+Mint's GRUB boot loader and the space after the MBR but before the first
+partition will be overwritten with Veracrypt's volume header (this is needed
+by Veracrypt's boot loader to boot into Windows 10).
+
+Finally, the data partitions (ie. music, google drive, etc.) must be encrypted
+with Veracrypt because Windows 10 does not recognize Linux Mint's encryption scheme
+but Linux Mint does recognize partitions encrypted with Veracrypt. When encrypting
+the data partitions using Veracrypt, a hash algorithm of *SHA256*, not *SHA512*, must
+be used (Linux Mint doesn't recognize the latter).
 
 ## Download Windows 10 ISO File and Burn it to a USB Flash Drive
 
