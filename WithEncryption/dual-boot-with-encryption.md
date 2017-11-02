@@ -352,9 +352,9 @@ appropriate mount points.
 
         $ blkid -s UUID -o value /dev/sda<Linux Mint drive identifier><partition identifier>
 
-and add the following line to the */mnt/etc/crypttab* file (create the file if necessary):
+1. Add the following line to the */mnt/etc/crypttab* file (create the file if necessary):
 
-        mint_crypt      <UUID value>       /crypto_keyfile.bin         luks,keyscript=/bin/cat
+        mint_crypt      <UUID value obtained above>       /crypto_keyfile.bin         luks,keyscript=/bin/cat
 
 ### Chroot Into Linux Mint and Finish Up the Install
 

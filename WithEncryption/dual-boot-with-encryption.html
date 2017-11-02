@@ -387,12 +387,11 @@ $ chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
 
 <pre><code>$ blkid -s UUID -o value /dev/sda&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt;
 </code></pre></li>
+<li><p>Add the following line to the <em>/mnt/etc/crypttab</em> file (create the file if necessary):</p>
+
+<pre><code>mint_crypt      &lt;UUID value obtained above&gt;       /crypto_keyfile.bin         luks,keyscript=/bin/cat
+</code></pre></li>
 </ol>
-
-<p>and add the following line to the <em>/mnt/etc/crypttab</em> file (create the file if necessary):</p>
-
-<pre><code>    mint_crypt      &lt;UUID value&gt;       /crypto_keyfile.bin         luks,keyscript=/bin/cat
-</code></pre>
 
 <h3>Chroot Into Linux Mint and Finish Up the Install</h3>
 
