@@ -53,6 +53,7 @@ environment as root.
 1. Encrypt Windows 10 system partition with Veracrypt.
 1. Encrypt data partitions with Veracrypt.
 1. Install and configure Linux Mint.
+1. Boot into Veracrypt's rescue disk and overwrite space after MBR with Veracrypt's volume header.
 
 ## Caveats
 
@@ -287,13 +288,18 @@ encrypt all data partitions making sure to use a hash algorithm of *SHA256*.
 
         $ lsblk
 
+1. Format the Linux Mint partition for encryption:
+
+        $ cryptsetup --type luks format /dev/sd<drive identifier><partition identifier
+        $ cryptsetup --type luke open /dev/sd<drive identifier><partition identifier> mint_crypt
+
 1. Create a physical LVM volume from the *Linux Mint* partition using the command:
 
-        $ sudo pvcreate -v /dev/sd<drive identifier><partition identifier>
+        $ sudo pvcreate -v /dev/mapper/mint_crypt
 
 1. Create a LVM volume group from the physical volume created above using the command:
 
-        $ sudo vgcreate -v vg01 /dev/sd<drive identifier><partition identifier>
+        $ sudo vgcreate -v vg01 /dev/mapper/mint_crypt
 
 1. Create a 75 GiB *root* logical volume and format it as *ext4* using the commands:
 
@@ -306,8 +312,8 @@ encrypt all data partitions making sure to use a hash algorithm of *SHA256*.
     * a 70 GiB *home* logical volume
     * a 75 GiB *usr* logical volume
     * a 75 GiB *var* logical volume
-    * a 150 GiB *VM* logical volume (this will contain all Oracle Virtualbox VMs)
-    * a 5 GiB *swap* logical volume
+    * a 200 GiB *VM* logical volume (this will contain all Oracle Virtualbox VMs)
+    * a 5 GiB *swap* logical volume (if you are using a laptop, this should match your RAM amount)
 
 ### Run the Linux Mint Installer
 
@@ -320,24 +326,45 @@ select *something else* and map the logical volumes created above to their
 appropriate mount points.
 
 
-### After Running Linux Mint Installer
+### Create an Encryption Keyfile
 
-1. After the Linux Mint installer has finished, we need to execute some commands in a
-*chroot* environment. To prepare for this, execute the following commands:
+1. Execute the following commands:
 
-        $ sudo mount /dev/vg01/root /mnt
-        $ sudo mount /dev/vg01/boot /mnt/boot
-        $ sudo mount /dev/vg01/home /mnt/home
-        $ sudo mount /dev/vg01/usr /mnt/usr
-        $ sudo mount /dev/vg01/var /mnt/var
         $ sudo mount --bind /dev /mnt/dev
         $ sudo mount --bind /dev/pts /mnt/dev/pts
         $ sudo mount --bind /sys /mnt/sys
         $ sudo mount --bind /proc /mnt/proc
         $ sudo mount --bind /run /mnt/run
 
-1. Now enter the *chroot* enviroment by running:
+1. Now create the keyfile needed to unlock the filesystem on boot:
 
+        $ dd bs=512 count=4 if=/dev/urandom of=/mnt/boot/crypto_keyfile.bin
+        $ cryptsetup luksAddKey /dev/sd<Linux Mint drive identifier><partition identifier> /mnt/boot/crypto_keyfile.bin
+        $ chmod 000 /mnt/boot/crypto_keyfile.bin
+        $ chmod -R go-rwx /mnt/boot
+
+1. Create an initramfs hook with the following commands:
+
+        $ echo "cp /boot/crypto_keyfile.bin \"\${DESTDIR}\"" | sudo tee -a /mnt/etc/initramfs-tools/hooks/crypto_keyfile
+        $ chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
+
+1. Copy the output of the following command (this gives the UUID of the Linux Mint partition):
+
+        $ blkid -s UUID -o value /dev/sda<Linux Mint drive identifier><partition identifier>
+
+and add the following line to the */mnt/etc/crypttab* file (create the file if necessary):
+
+        mint_crypt      <UUID value>       /crypto_keyfile.bin         luks,keyscript=/bin/cat
+
+### Chroot Into Linux Mint and Finish Up the Install
+
+1. *chroot* into the Linux Mint environment:
+
+        $ sudo mount /dev/vg01/root /mnt
+        $ sudo mount /dev/vg01/boot /mnt/boot
+        $ sudo mount /dev/vg01/home /mnt/home
+        $ sudo mount /dev/vg01/usr /mnt/usr
+        $ sudo mount /dev/vg01/var /mnt/var
         $ sudo chroot /mnt /bin/bash
 
 1. Now execute the following commands to generate the locale and the initial ramdisk:
@@ -351,7 +378,7 @@ configuration file:
         $ cd /etc/default
         $ sudo mv grub{,.bak}
 
-1. Now download the new [GRUB configuration file](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/grub "grub")
+1. Now download the new [GRUB configuration file](https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/grub "grub")
  and copy it to */etc/default/grub*.
 
 1. Download the [GRUB background image](https://ashgupta1971.github.io/DualBootLinuxMint/Common/grub_background.png "grub_background.png")
@@ -418,7 +445,7 @@ points for the system):
         $ cd /etc
         $ sudo mv fstab{,.bak}
 
-1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/fstab "fstab")
+1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/fstab "fstab")
  and copy it to */etc/fstab*.
 1. Setup all the mount points in the *fstab* file and mount them using the command (note that the
 UUID numbers for your system will be different than the ones in this file):
@@ -564,11 +591,3 @@ Do the same for the Linux Mint partition.
 
 *Note: Do not make images of the Google Drive, Music, Ebooks, Data,
  Shared Documents or Virtual Machine partitions.*
-
-## Restore Data from Backups
-
-1. Restore all music to the folder *C:\Users\johndoe\Music*.
-1. Restore all ebooks to the folder *C:\Users\johndoe\Ebooks*.
-1. Download all files from *johndoe's* Google Drive account into the folder *C:\Users\johndoe\Google Drive*.
-1. Restore the contents of the *Data* partition.
-1. Copy the *johndoe.kdbx* password file back to the folder *C:\Users\johndoe\Shared Documents*.

@@ -57,6 +57,7 @@ environment as root.</p>
 <li>Encrypt Windows 10 system partition with Veracrypt.</li>
 <li>Encrypt data partitions with Veracrypt.</li>
 <li>Install and configure Linux Mint.</li>
+<li>Boot into Veracrypt's rescue disk and overwrite space after MBR with Veracrypt's volume header.</li>
 </ol>
 
 <h2>Caveats</h2>
@@ -318,13 +319,18 @@ encrypt all data partitions making sure to use a hash algorithm of <em>SHA256</e
 
 <pre><code>$ lsblk
 </code></pre></li>
+<li><p>Format the Linux Mint partition for encryption:</p>
+
+<pre><code>$ cryptsetup --type luks format /dev/sd&lt;drive identifier&gt;&lt;partition identifier
+$ cryptsetup --type luke open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
+</code></pre></li>
 <li><p>Create a physical LVM volume from the <em>Linux Mint</em> partition using the command:</p>
 
-<pre><code>$ sudo pvcreate -v /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
+<pre><code>$ sudo pvcreate -v /dev/mapper/mint_crypt
 </code></pre></li>
 <li><p>Create a LVM volume group from the physical volume created above using the command:</p>
 
-<pre><code>$ sudo vgcreate -v vg01 /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
+<pre><code>$ sudo vgcreate -v vg01 /dev/mapper/mint_crypt
 </code></pre></li>
 <li><p>Create a 75 GiB <em>root</em> logical volume and format it as <em>ext4</em> using the commands:</p>
 
@@ -338,8 +344,8 @@ $ sudo mkfs -t ext4 -L &lt;partition label&gt; /dev/vg01/root
 <li>a 70 GiB <em>home</em> logical volume</li>
 <li>a 75 GiB <em>usr</em> logical volume</li>
 <li>a 75 GiB <em>var</em> logical volume</li>
-<li>a 150 GiB <em>VM</em> logical volume (this will contain all Oracle Virtualbox VMs)</li>
-<li>a 5 GiB <em>swap</em> logical volume</li>
+<li>a 200 GiB <em>VM</em> logical volume (this will contain all Oracle Virtualbox VMs)</li>
+<li>a 5 GiB <em>swap</em> logical volume (if you are using a laptop, this should match your RAM amount)</li>
 </ul></li>
 </ol>
 
@@ -354,26 +360,51 @@ $ sudo mkfs -t ext4 -L &lt;partition label&gt; /dev/vg01/root
 select <em>something else</em> and map the logical volumes created above to their 
 appropriate mount points.</p>
 
-<h3>After Running Linux Mint Installer</h3>
+<h3>Create an Encryption Keyfile</h3>
 
 <ol>
-<li><p>After the Linux Mint installer has finished, we need to execute some commands in a
-<em>chroot</em> environment. To prepare for this, execute the following commands:</p>
+<li><p>Execute the following commands:</p>
+
+<pre><code>$ sudo mount --bind /dev /mnt/dev
+$ sudo mount --bind /dev/pts /mnt/dev/pts
+$ sudo mount --bind /sys /mnt/sys
+$ sudo mount --bind /proc /mnt/proc
+$ sudo mount --bind /run /mnt/run
+</code></pre></li>
+<li><p>Now create the keyfile needed to unlock the filesystem on boot:</p>
+
+<pre><code>$ dd bs=512 count=4 if=/dev/urandom of=/mnt/boot/crypto_keyfile.bin
+$ cryptsetup luksAddKey /dev/sd&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt; /mnt/boot/crypto_keyfile.bin
+$ chmod 000 /mnt/boot/crypto_keyfile.bin
+$ chmod -R go-rwx /mnt/boot
+</code></pre></li>
+<li><p>Create an initramfs hook with the following commands:</p>
+
+<pre><code>$ echo "cp /boot/crypto_keyfile.bin \"\${DESTDIR}\"" | sudo tee -a /mnt/etc/initramfs-tools/hooks/crypto_keyfile
+$ chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
+</code></pre></li>
+<li><p>Copy the output of the following command (this gives the UUID of the Linux Mint partition):</p>
+
+<pre><code>$ blkid -s UUID -o value /dev/sda&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt;
+</code></pre></li>
+</ol>
+
+<p>and add the following line to the <em>/mnt/etc/crypttab</em> file (create the file if necessary):</p>
+
+<pre><code>    mint_crypt      &lt;UUID value&gt;       /crypto_keyfile.bin         luks,keyscript=/bin/cat
+</code></pre>
+
+<h3>Chroot Into Linux Mint and Finish Up the Install</h3>
+
+<ol>
+<li><p><em>chroot</em> into the Linux Mint environment:</p>
 
 <pre><code>$ sudo mount /dev/vg01/root /mnt
 $ sudo mount /dev/vg01/boot /mnt/boot
 $ sudo mount /dev/vg01/home /mnt/home
 $ sudo mount /dev/vg01/usr /mnt/usr
 $ sudo mount /dev/vg01/var /mnt/var
-$ sudo mount --bind /dev /mnt/dev
-$ sudo mount --bind /dev/pts /mnt/dev/pts
-$ sudo mount --bind /sys /mnt/sys
-$ sudo mount --bind /proc /mnt/proc
-$ sudo mount --bind /run /mnt/run
-</code></pre></li>
-<li><p>Now enter the <em>chroot</em> enviroment by running:</p>
-
-<pre><code>$ sudo chroot /mnt /bin/bash
+$ sudo chroot /mnt /bin/bash
 </code></pre></li>
 <li><p>Now execute the following commands to generate the locale and the initial ramdisk:</p>
 
@@ -386,7 +417,7 @@ configuration file:</p>
 <pre><code>$ cd /etc/default
 $ sudo mv grub{,.bak}
 </code></pre></li>
-<li><p>Now download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/grub" title="grub">GRUB configuration file</a>
+<li><p>Now download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/grub" title="grub">GRUB configuration file</a>
 and copy it to <em>/etc/default/grub</em>.</p></li>
 <li><p>Download the <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/grub_background.png" title="grub_background.png">GRUB background image</a>
 and copy it to <em>/boot/grub/grub_background.png</em>.</p></li>
@@ -457,7 +488,7 @@ points for the system):</p>
 <pre><code>$ cd /etc
 $ sudo mv fstab{,.bak}
 </code></pre></li>
-<li><p>Download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/fstab" title="fstab"><em>fstab</em> file</a>
+<li><p>Download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/fstab" title="fstab"><em>fstab</em> file</a>
 and copy it to <em>/etc/fstab</em>.</p></li>
 <li><p>Setup all the mount points in the <em>fstab</em> file and mount them using the command (note that the
 UUID numbers for your system will be different than the ones in this file):</p>
@@ -620,13 +651,3 @@ an image of the 150 GiB Windows 10 partition to an external hard drive.</p>
 
 <p><em>Note: Do not make images of the Google Drive, Music, Ebooks, Data,
  Shared Documents or Virtual Machine partitions.</em></p>
-
-<h2>Restore Data from Backups</h2>
-
-<ol>
-<li>Restore all music to the folder <em>C:\Users\johndoe\Music</em>.</li>
-<li>Restore all ebooks to the folder <em>C:\Users\johndoe\Ebooks</em>.</li>
-<li>Download all files from <em>johndoe's</em> Google Drive account into the folder <em>C:\Users\johndoe\Google Drive</em>.</li>
-<li>Restore the contents of the <em>Data</em> partition.</li>
-<li>Copy the <em>johndoe.kdbx</em> password file back to the folder <em>C:\Users\johndoe\Shared Documents</em>.</li>
-</ol>
