@@ -322,7 +322,19 @@ encrypt all data partitions making sure to use a hash algorithm of <em>SHA256</e
 <li><p>Format the Linux Mint partition for encryption:</p>
 
 <pre><code>$ cryptsetup --type luks format /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
-$ cryptsetup --type luks open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
+</code></pre></li>
+<li><p><strong>NOTE: For even stronger security, use the following command instead of the one above:</strong></p>
+
+<pre><code>$ sudo cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random luksFormat /dev/sd&lt;drive identifier&gt;&lt;partition identifier
+</code></pre></li>
+</ol>
+
+<p><strong>A value of --iter-time 100000 will increase security but will increase boot times to 5 minutes on a Core i5 system.</strong></p>
+
+<ol>
+<li><p>"Open" (unencrypt) the newly formatted partition:</p>
+
+<pre><code>$ cryptsetup --type luks open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
 </code></pre></li>
 <li><p>Create a physical LVM volume from the <em>Linux Mint</em> partition using the command:</p>
 
@@ -344,7 +356,7 @@ $ sudo mkfs -t ext4 -L &lt;partition label&gt; /dev/vg01/root
 <li>a 70 GiB <em>home</em> logical volume</li>
 <li>a 75 GiB <em>usr</em> logical volume</li>
 <li>a 75 GiB <em>var</em> logical volume</li>
-<li>a 200 GiB <em>VM</em> logical volume (this will contain all Oracle Virtualbox VMs)</li>
+<li>a 200 GiB <em>VMs</em> logical volume (this will contain all Oracle Virtualbox VMs)</li>
 <li>a 5 GiB <em>swap</em> logical volume (if you are using a laptop, this should match your RAM amount)</li>
 </ul></li>
 </ol>
@@ -378,6 +390,16 @@ $ cryptsetup luksAddKey /dev/sd&lt;Linux Mint drive identifier&gt;&lt;partition 
 $ chmod 000 /mnt/boot/crypto_keyfile.bin
 $ chmod -R go-rwx /mnt/boot
 </code></pre></li>
+<li><p><strong>Note: If you have chosen to use very strong encryption standards (as mentioned above when formatting the device), 
+then replace the first of the four commands above to:</strong></p>
+
+<pre><code>$ sudo dd bs=512 count=4 if=/dev/random iflag=fullblock of=/mnt/boot/crypto_keyfile.bin
+</code></pre></li>
+</ol>
+
+<p><strong>This command will take 30 to 40 minutes to run on a Core i5 system (but only during installation.)</strong></p>
+
+<ol>
 <li><p>Create an initramfs hook with the following commands:</p>
 
 <pre><code>$ echo "cp /boot/crypto_keyfile.bin \"\${DESTDIR}\"" | sudo tee -a /mnt/etc/initramfs-tools/hooks/crypto_keyfile

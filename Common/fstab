@@ -7,6 +7,7 @@
 /dev/vg01/home   	/home       ext4      	rw,relatime,data=ordered	0 2
 /dev/vg01/usr       /usr    	ext4      	rw,relatime,data=ordered	0 2
 /dev/vg01/var       /var     	ext4      	rw,relatime,data=ordered	0 2
+/dev/vg01/VMs       /home/johndoe/VirtualBox\040VMs     	ext4      	rw,relatime,data=ordered	0 2
 /dev/vg01/swap      none       	none      	swap,defaults  	            0 0
 
 # Only user "johndoe" 1000 and group members of "windows" 1002 gid can access this partiton; folders will have default perm of 755 - dmask=022 and files 644 - fmask=133

@@ -291,6 +291,15 @@ encrypt all data partitions making sure to use a hash algorithm of *SHA256*.
 1. Format the Linux Mint partition for encryption:
 
         $ cryptsetup --type luks format /dev/sd<drive identifier><partition identifier>
+
+1. **NOTE: For even stronger security, use the following command instead of the one above:**
+
+        $ sudo cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random luksFormat /dev/sd<drive identifier><partition identifier
+
+**A value of --iter-time 100000 will increase security but will increase boot times to 5 minutes on a Core i5 system.**
+
+1. "Open" (unencrypt) the newly formatted partition:
+
         $ cryptsetup --type luks open /dev/sd<drive identifier><partition identifier> mint_crypt
 
 1. Create a physical LVM volume from the *Linux Mint* partition using the command:
@@ -312,7 +321,7 @@ encrypt all data partitions making sure to use a hash algorithm of *SHA256*.
     * a 70 GiB *home* logical volume
     * a 75 GiB *usr* logical volume
     * a 75 GiB *var* logical volume
-    * a 200 GiB *VM* logical volume (this will contain all Oracle Virtualbox VMs)
+    * a 200 GiB *VMs* logical volume (this will contain all Oracle Virtualbox VMs)
     * a 5 GiB *swap* logical volume (if you are using a laptop, this should match your RAM amount)
 
 ### Run the Linux Mint Installer
@@ -342,6 +351,13 @@ appropriate mount points.
         $ cryptsetup luksAddKey /dev/sd<Linux Mint drive identifier><partition identifier> /mnt/boot/crypto_keyfile.bin
         $ chmod 000 /mnt/boot/crypto_keyfile.bin
         $ chmod -R go-rwx /mnt/boot
+
+1. **Note: If you have chosen to use very strong encryption standards (as mentioned above when formatting the device), 
+then replace the first of the four commands above to:**
+
+        $ sudo dd bs=512 count=4 if=/dev/random iflag=fullblock of=/mnt/boot/crypto_keyfile.bin
+
+**This command will take 30 to 40 minutes to run on a Core i5 system (but only during installation.)**
 
 1. Create an initramfs hook with the following commands:
 
