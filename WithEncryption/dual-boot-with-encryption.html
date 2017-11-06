@@ -325,7 +325,7 @@ encrypt all data partitions making sure to use a hash algorithm of <em>SHA256</e
 </code></pre></li>
 <li><p><strong>NOTE: For even stronger security, use the following command instead of the one above:</strong></p>
 
-<pre><code>$ sudo cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random luksFormat /dev/sd&lt;drive identifier&gt;&lt;partition identifier
+<pre><code>$ sudo cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random luksFormat /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
 </code></pre></li>
 </ol>
 
