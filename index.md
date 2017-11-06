@@ -44,8 +44,8 @@ It doesn't matter which version of Windows 10
 on installing. 
 
 This document also shows how to install several useful applications and
-utilities under Windows 10 and Linux Mint. The reader can skip those that do not
-interest you.
+utilities under Windows 10 and Linux Mint. The reader can skip those that are
+not of interest.
 
 All commands which are executed on the linux command line must be done so as root.
 
@@ -260,9 +260,9 @@ in bulk later.*
 ## Setting Up a Non-Encrypted Dual-Boot System
 
 The process for setting up a non-encrypted, dual-boot system
-is described [here](https://ashgupta1971.github.io/WithoutEncryption/dual-boot-without-encryption.html "Dual-Boot Without Encryption").
+is described [here](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/dual-boot-without-encryption.html "Dual-Boot Without Encryption").
 
 ## Setting Up an Encrypted Dual-Boot System
 
 The process for setting up an encrypted, dual-boot system
-is described [here](https://ashgupta1971.github.io/WithEncryption/dual-boot-with-encryption.html "Dual-Boot With Encryption").
+is described [here](https://ashgupta1971.github.io/WithEncryption/DualBootLinuxMint/dual-boot-with-encryption.html "Dual-Boot With Encryption").
