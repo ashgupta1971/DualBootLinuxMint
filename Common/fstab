@@ -1,0 +1,29 @@
+# 
+# /etc/fstab: static file system information
+#
+# <file system>	<dir>	<type>	<options>	<dump>	<pass>
+/dev/vg01/root      /        	ext4      	rw,relatime,data=ordered	0 1
+/dev/vg01/boot      /boot    	ext4      	rw,relatime,stripe=4,data=ordered	0 2
+/dev/vg01/home   	/home       ext4      	rw,relatime,data=ordered	0 2
+/dev/vg01/usr       /usr    	ext4      	rw,relatime,data=ordered	0 2
+/dev/vg01/var       /var     	ext4      	rw,relatime,data=ordered	0 2
+/dev/vg01/swap      none       	none      	swap,defaults  	            0 0
+
+# Only user "johndoe" 1000 and group members of "windows" 1002 gid can access this partiton; folders will have default perm of 755 - dmask=022 and files 644 - fmask=133
+UUID=<id of your google drive partition>		/home/johndoe/Google\040Drive	ntfs-3g		uid=1000,gid=1002,dmask=022,fmask=133		0	0
+
+
+# Only user "johndoe" 1000 and group members of "windows" 1002 gid can access this partiton; folders will have default perm of 755 - dmask=022 and files 644 - fmask=133
+UUID=<id of your music partition> 	/home/johndoe/Music	ntfs-3g		uid=1000,gid=1002,dmask=022,fmask=133	0	0
+
+# Only user "johndoe" 1000 and group members of "windows" 1002 gid can access this partiton; folders will have default perm of 755 - dmask=022 and files 644 - fmask=133
+UUID=<id of your ebooks partition> 	/home/johndoe/Ebooks	ntfs-3g		uid=1000,gid=1002,dmask=022,fmask=133	0	0
+
+# Only user "johndoe" 1000 and group members of "windows" 1002 gid can access this partiton; folders will have default perm of 755 - dmask=022 and files 644 - fmask=133
+UUID=<id of your data partition>	/home/johndoe/Data	ntfs-3g		uid=1000,gid=1002,dmask=022,fmask=133	0 	0 
+
+# Wallpaper
+/home/johndoe/Google\040Drive/Pictures/Wallpaper		/home/johndoe/Wallpaper	none	defaults,bind	0	0
+
+# Print Jobs for johndoe
+/var/spool/cups-pdf/johndoe	/home/johndoe/Print\040Jobs	none	defaults,bind	0	0

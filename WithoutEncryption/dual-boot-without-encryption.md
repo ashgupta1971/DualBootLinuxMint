@@ -388,7 +388,7 @@ points for the system):
         $ cd /etc
         $ sudo mv fstab{,.bak}
 
-1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/fstab "fstab")
+1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/Common/fstab "fstab")
  and copy it to */etc/fstab*.
 1. Setup all the mount points in the *fstab* file and mount them using the command (note that the
 UUID numbers for your system will be different than the ones in this file):

@@ -130,9 +130,9 @@ containing the Linux Mint ISO file):</p>
     $ sudo dd status=progress bs=1M if=&lt;path to Linux Mint ISO file&gt; of=/dev/sd&lt;drive identifier&gt;
 </code></pre>
 
-<h2>Backup Data From the Storage Device</h2>
+<h2>Backup Data to Storage Device</h2>
 
-<p>Backup the following items from your storage device:</p>
+<p>Backup the following items to your storage device:</p>
 
 <ul>
 <li><em>Downloads</em> folder</li>
@@ -291,7 +291,7 @@ in bulk later.</em></p>
 <li>Malwarebytes</li>
 <li>KeePass 2</li>
 </ul></li>
-<li><p>Download and install <a href="https://www.veracrypt.fr/en/Downloads.html" title="Veracrypt"><em>Veracrypt</em></a> (do use the portable version).</p></li>
+<li><p>Download and install <a href="https://www.veracrypt.fr/en/Downloads.html" title="Veracrypt"><em>Veracrypt</em></a> (do not use the portable version).</p></li>
 <li>Download and install <a href="https://www.tracker-software.com/product/pdf-xchange-viewer" title="PDF-XChange Viewer"><em>PDF-XChange Viewer</em></a>.</li>
 <li>Download and install <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html" title="Oracle Virtualbox"><em>Oracle Virtualbox</em></a>.</li>
 <li>Install <a href="http://www.vim.org"><em>gvim</em></a>, download the 
@@ -321,7 +321,7 @@ encrypt all data partitions making sure to use a hash algorithm of <em>SHA256</e
 </code></pre></li>
 <li><p>Format the Linux Mint partition for encryption:</p>
 
-<pre><code>$ cryptsetup --type luks format /dev/sd&lt;drive identifier&gt;&lt;partition identifier
+<pre><code>$ cryptsetup --type luks format /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
 $ cryptsetup --type luks open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
 </code></pre></li>
 <li><p>Create a physical LVM volume from the <em>Linux Mint</em> partition using the command:</p>
@@ -487,7 +487,7 @@ points for the system):</p>
 <pre><code>$ cd /etc
 $ sudo mv fstab{,.bak}
 </code></pre></li>
-<li><p>Download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/fstab" title="fstab"><em>fstab</em> file</a>
+<li><p>Download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/fstab" title="fstab"><em>fstab</em> file</a>
 and copy it to <em>/etc/fstab</em>.</p></li>
 <li><p>Setup all the mount points in the <em>fstab</em> file and mount them using the command (note that the
 UUID numbers for your system will be different than the ones in this file):</p>

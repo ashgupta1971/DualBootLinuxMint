@@ -120,9 +120,9 @@ Burn the ISO file to a USB flash drive as follows:
         $ sudo mkfs.vfat -n "LinuxMint" -I /dev/sd<drive identifier>
         $ sudo dd status=progress bs=1M if=<path to Linux Mint ISO file> of=/dev/sd<drive identifier>
 
-## Backup Data From the Storage Device
+## Backup Data to Storage Device
 
-Backup the following items from your storage device:
+Backup the following items to your storage device:
 
 * *Downloads* folder
 * *Documents* folder
@@ -262,7 +262,7 @@ in bulk later.*
     * Malwarebytes
     * KeePass 2
 
-1. Download and install [*Veracrypt*](https://www.veracrypt.fr/en/Downloads.html "Veracrypt") (do use the portable version).
+1. Download and install [*Veracrypt*](https://www.veracrypt.fr/en/Downloads.html "Veracrypt") (do not use the portable version).
 1. Download and install [*PDF-XChange Viewer*](https://www.tracker-software.com/product/pdf-xchange-viewer "PDF-XChange Viewer").
 1. Download and install [*Oracle Virtualbox*](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
 1. Install [*gvim*](http://www.vim.org), download the 
@@ -290,7 +290,7 @@ encrypt all data partitions making sure to use a hash algorithm of *SHA256*.
 
 1. Format the Linux Mint partition for encryption:
 
-        $ cryptsetup --type luks format /dev/sd<drive identifier><partition identifier
+        $ cryptsetup --type luks format /dev/sd<drive identifier><partition identifier>
         $ cryptsetup --type luks open /dev/sd<drive identifier><partition identifier> mint_crypt
 
 1. Create a physical LVM volume from the *Linux Mint* partition using the command:
@@ -445,7 +445,7 @@ points for the system):
         $ cd /etc
         $ sudo mv fstab{,.bak}
 
-1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/fstab "fstab")
+1. Download the new [*fstab* file](https://ashgupta1971.github.io/DualBootLinuxMint/Common/fstab "fstab")
  and copy it to */etc/fstab*.
 1. Setup all the mount points in the *fstab* file and mount them using the command (note that the
 UUID numbers for your system will be different than the ones in this file):
