@@ -1,0 +1,300 @@
+<h1>Setting Up a Dual-Boot Windows 10 and Linux Mint System</h1>
+
+<hr />
+
+<h2>Introduction</h2>
+
+<p>This document explains how to setup a dual-boot Windows 10
+and Linux Mint system. It is split into two parts:
+setting up a system with drive encryption and without
+drive encryption.</p>
+
+<p>Here are the assumptions about your system that this document
+makes:</p>
+
+<ul>
+<li>The storage device being used is 1 TB in size.</li>
+<li>The storage device is a hard disk drive, not a SSD.</li>
+<li>The storage device is in MBR format (not UEFI) and will be
+kept that way.</li>
+<li>There may be an existing instance of Windows 10 installed 
+along with data that needs to be preserved. If this is not the
+case then the reader can omit the relevant sections.</li>
+<li>The data which needs to be preserved will be placed in separate
+partitions (ie. for music, google drive data, etc.).</li>
+<li>You have Norton Security installed and this product needs to
+be deactivated and reinstalled after the fresh install of Windows 10.</li>
+<li>There may be existing LVM metadata on the drive which needs to
+be removed. Again, skip the relevant sections if this is not the case.</li>
+<li>The storage device will be completely erased and a 
+fresh install of Windows 10 and Linux Mint will be performed.</li>
+<li>You have Oracle Virtualbox installed along with one or more virtual
+machines which need to be preserved.</li>
+<li>Your primary day-to-day operating system will be Linux Mint
+not Windows 10 (the space alloted to the two operating systems
+reflects this assumption).</li>
+</ul>
+
+<p>Also, it is assumed the reader has some knowledge of the following:</p>
+
+<ul>
+<li>Using <em>Veracrypt</em> to perform system partition and non-system partition encryption
+under Windows 10</li>
+<li>Basic linux command line usage</li>
+<li>How to set up partitions using the linux <em>fdisk</em> utility</li>
+</ul>
+
+<p>It doesn't matter which version of Windows 10 
+(32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
+on installing. </p>
+
+<p>This document also shows how to install several useful applications and
+utilities under Windows 10 and Linux Mint. The reader can skip those that do not
+interest you.</p>
+
+<p>All commands which are executed on the linux command line must be done so as root.</p>
+
+<h2>Preliminary Steps</h2>
+
+<p>The initial steps which need to be performed are the same for both procedures:</p>
+
+<ol>
+<li>Download Windows 10 ISO file and burn it to a USB flash drive.</li>
+<li>Download any drivers needed for new Windows 10 installation and save them on USB flash drive.</li>
+<li>Download Linux Mint ISO file, verify checksum and burn ISO to a USB flash drive.</li>
+<li>Backup existing data to an external drive.</li>
+<li>Deactivate Norton Security on existing Windows installation.</li>
+<li>Wipe LVM data and partition tables on storage device.</li>
+<li>Create New Partitions on Storage Device.</li>
+<li>Install and Configure Windows 10.</li>
+</ol>
+
+<h3>Download Windows 10 ISO File and Burn it to a USB Flash Drive</h3>
+
+<p>Download the <a href="https://www.microsoft.com/en-us/software-download/windows10ISO" title="Windows 10 ISO">Windows 10 ISO file</a>.</p>
+
+<p>Burn it to a USB flash drive from the command line as follows:</p>
+
+<pre><code>    $ sudo mkfs.vfat -n "Windows10" -I /dev/sd&lt;drive identifier&gt;
+    $ sudo dd status=progress bs=1M if=&lt;path to Windows 10 ISO file&gt; of=/dev/sd&lt;drive identifier&gt;
+</code></pre>
+
+<p>Note that the <code>dd</code> command may appear to freeze for several minutes. This
+is normal and just wait for it to finish.</p>
+
+<h3>Download Windows 10 Drivers</h3>
+
+<p>Download the following drivers from the manufacturers' websites:</p>
+
+<ul>
+<li>chipset</li>
+<li>LAN</li>
+<li>audio</li>
+<li>USB 3</li>
+<li>graphics card</li>
+<li>Intel RST (Rapid Storage Technology) drivers (if you are using RAID or an SSD/M.2 drive)</li>
+</ul>
+
+<p>Copy them in a folder on the same USB drive containing the Windows 10 ISO.</p>
+
+<h3>Download, Verify and Burn Linux Mint ISO File</h3>
+
+<p>Download the <a href="https://www.linuxmint.com/download.php" title="Linux Mint ISO Download">Linux Mint ISO file</a> of your choice.
+Also download the <em>sha256 checksum text file</em>, its associated <em>signature file</em> and make a note of the <em>fingerprint</em> for
+the <em>public GPG Linux Mint key</em>. Verify the ISO image using the following commands (these must be run inside the directory
+containing the Linux Mint ISO file):</p>
+
+<pre><code>    $ sha256sum --ignore-missing -c &lt;sha256 checksum text file&gt;
+    $ gpg --recv-key &lt;linux mint public key fingerprint&gt; --keyserver keyserver.ubuntu.com
+    $ gpg --verify &lt;signature file&gt; &lt;sha256 checksum text file&gt;
+</code></pre>
+
+<p>Burn the ISO file to a USB flash drive as follows:</p>
+
+<pre><code>    $ sudo mkfs.vfat -n "LinuxMint" -I /dev/sd&lt;drive identifier&gt;
+    $ sudo dd status=progress bs=1M if=&lt;path to Linux Mint ISO file&gt; of=/dev/sd&lt;drive identifier&gt;
+</code></pre>
+
+<h3>Backup Data to Storage Device</h3>
+
+<p>Backup the following items to your storage device:</p>
+
+<ul>
+<li><em>Downloads</em> folder</li>
+<li><em>Documents</em> folder</li>
+<li><em>Music</em> folder</li>
+<li><em>Google Drive</em> folder</li>
+<li>any folders in the <em>Data</em> partition</li>
+<li>the <em>johndoe.kdbx</em> password file</li>
+<li>export all Oracle Virtualbox VMs as appliances to an external drive</li>
+</ul>
+
+<h3>Deactivate Norton Security</h3>
+
+<p>If you don't deactivate Norton Security before reinstalling Windows, 
+your Norton online account will still assume you have an "instance" of 
+their product activated and running. This will count against the total
+number of "instances" of their product you can install.</p>
+
+<h3>Wipe LVMs and Partitions on Storage Device</h3>
+
+<p>First look for any logical volumes on the storage device with the following command:</p>
+
+<pre><code>    $ lvs
+</code></pre>
+
+<p>For each logical volume, issue the command:</p>
+
+<pre><code>    $ lvremove --verbose &lt;lvname&gt;
+</code></pre>
+
+<p>After all logical volumes have been removed, remove all volume groups. To
+list all volume groups, issue the command:</p>
+
+<pre><code>    $ vgs
+</code></pre>
+
+<p>For each volume group, issue the command:</p>
+
+<pre><code>    $ vgremove --verbose &lt;vgname&gt;
+</code></pre>
+
+<p>After all volume groups have been removed, remove all physical volumes. To
+list all physical volumes, issue the command:</p>
+
+<pre><code>    $ pvs
+</code></pre>
+
+<p>For each physical volume, issue the command:</p>
+
+<pre><code>    $ pvremove --verbose &lt;pvname&gt;
+</code></pre>
+
+<p>Now wipe all partition information from the storage device using fdisk:</p>
+
+<pre><code>    $ fdisk /dev/sd&lt;device identifier&gt;
+</code></pre>
+
+<p>At the fdisk prompt type "o" to erase the MBR and then type "w" to write
+all changes and exit the utility.</p>
+
+<h3>Create New Partitions on Storage Device</h3>
+
+<p>Create the following partitions on the storage device using fdisk (use
+a partition type of "7" for NTFS partitions):</p>
+
+<ol>
+<li>a 100 GiB <em>Windows 10</em> primary partition formatted as <em>NTFS</em></li>
+<li>a 450 GiB <em>Linux Mint</em> unformatted, logical partition</li>
+<li>a 25 GiB <em>Shared Documents</em> logical partition formatted as <em>NTFS</em></li>
+<li>a 25 GiB <em>Music</em> logical partition formatted as <em>NTFS</em></li>
+<li>a 25 GiB <em>Google Drive</em> logical partition formatted as <em>NTFS</em></li>
+<li>a 10 GiB <em>Ebooks</em> logical partition formatted as <em>NTFS</em></li>
+<li>a 50 GiB <em>Windows Virtual Machines</em> logical partition formatted as <em>NTFS</em></li>
+<li>a 200 GiB <em>Data</em> logical partition formatted as <em>NTFS</em></li>
+</ol>
+
+<p>This will leave approximately 50 GB of empty space on the storage
+device for future use.</p>
+
+<p>To format partitions with the NTFS file system, use the command:</p>
+
+<pre><code>    $ sudo mkfs -t NTFS -f -L &lt;partition label&gt; /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
+</code></pre>
+
+<h3>Install and Configure Windows 10</h3>
+
+<h4>During Install</h4>
+
+<ol>
+<li>Insert the USB flash drive containing Windows 10 and boot from it.</li>
+<li>Go through the installtion procedure.</li>
+<li>Choose the <em>Windows 10</em> partition when prompted (this should be partition number 1). 
+<em>Note: Because we are telling Windows to install in a specific partition, it will not generate
+a separate <strong>System Reserved</strong> partition. Instead, it will place all files in the partition we
+have chosen.</em></li>
+<li>Make sure not to choose "Express Install" when prompted (this will enable various "snooping" options).</li>
+<li>When prompted for the first user account, choose the name <em>admin</em> but ensure it is created as a <em>local</em> account not a <em>One Drive</em> account.</li>
+</ol>
+
+<h4>After Install</h4>
+
+<ol>
+<li>Disconnect from the internet.</li>
+<li>Install all the drivers previously downloaded, in the following order:
+<ul>
+<li>chipset</li>
+<li>LAN</li>
+<li>audio</li>
+<li>USB 3</li>
+<li>graphics card</li>
+</ul></li>
+<li>Create a <em>local</em>, <em>non-adminstrator</em> account called <em>johndoe</em>.</li>
+<li>Create a <em>visitor</em> account by running this <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/create-visitor-account.bat" title="Visitor account creation script">batch script</a>
+from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER>.</li>
+<li>Enable restore points on the C partition (Windows 10 disables them by default).</li>
+<li>Delete the hidden file <em>C:\Users\johndoe\Music\desktop.ini</em> and map the <em>Music</em> partition to this folder.</li>
+<li>Create a folder <em>C:\Users\johndoe\Google Drive</em> and map the <em>Google Drive</em> partition to it.</li>
+<li>Create a folder <em>C:\Users\johndoe\Shared Documents</em> and map the <em>Shared Documents</em> partition to it.</li>
+<li>Create a folder <em>C:\Users\johndoe\Ebooks</em> and map the <em>Ebooks</em> partition to it.</li>
+<li>Create a folder <em>C:\Users\johndoe\VirtualBox VMs</em> and map the <em>Windows Virtual Machines</em> partition to it.</li>
+<li>Set permissions for the <em>Data</em> partition so that only <em>admin</em> and <em>johndoe</em> can access it.</li>
+<li>Connect to the internet, download and install <em>Norton Security</em> and all security updates.</li>
+<li>Install all outstanding Windows 10 updates.</li>
+<li>Download and install the driver and software for your printer.</li>
+</ol>
+
+<h4>Install Software</h4>
+
+<ol>
+<li><p>Visit <a href="https://ninite.com/" title="Ninite">Ninite</a> and download and install the following software.
+<em>Note: Keep the Ninite installer download. You can use it to update all these applications
+in bulk later.</em></p>
+
+<ul>
+<li>Chrome</li>
+<li>Opera</li>
+<li>Firefox</li>
+<li>TeamViewer 12</li>
+<li>ImgBurn</li>
+<li>CDBurnerXP</li>
+<li>Revo</li>
+<li>InfraRecorder</li>
+<li>Skype</li>
+<li>7-zip</li>
+<li>PeaZip</li>
+<li>VLC</li>
+<li>MusicBee</li>
+<li>K-Lite Codecs</li>
+<li>Spotify</li>
+<li>CCCP</li>
+<li>FileZilla</li>
+<li>Notepad++</li>
+<li>WinSCP</li>
+<li>PuTTY</li>
+<li>LibreOffice</li>
+<li>Malwarebytes</li>
+<li>KeePass 2</li>
+</ul></li>
+<li><p>If the reader is performing an encrypted system setup, then download and install 
+<a href="https://www.veracrypt.fr/en/Downloads.html" title="Veracrypt"><em>Veracrypt</em></a> (do not use the portable version).</p></li>
+<li>Download and install <a href="https://www.tracker-software.com/product/pdf-xchange-viewer" title="PDF-XChange Viewer"><em>PDF-XChange Viewer</em></a>.</li>
+<li>Download and install <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html" title="Oracle Virtualbox"><em>Oracle Virtualbox</em></a>.</li>
+<li>Install <a href="http://www.vim.org"><em>gvim</em></a>, download the 
+<a href="https://github.com/ashgupta1971/dotfiles/blob/master/vim/.vimrc" title=".vimrc"><em>vimrc</em> configuration file</a> and copy it to <em>C:\Users\johndoe\_vimrc</em>.</li>
+<li>Remove unnecessary programs from startup using Windows' <em>msconfig</em> utility.</li>
+<li>Import all Oracle Virtualbox appliances previously exported.</li>
+<li>Restore data to all data partitions (ie. music, google drive, etc.).</li>
+<li>Configure the desktop as desired.</li>
+<li>Calibrate the display using Windows' <em>calibrate</em> utility.</li>
+</ol>
+
+<h2>Setting Up a Non-Encrypted Dual-Boot System</h2>
+
+<p>The process for setting up a non-encrypted, dual-boot system
+is described <a href="https://ashgupta1971.github.io/WithoutEncryption/dual-boot-without-encryption.html" title="Dual-Boot Without Encryption">here</a>.</p>
+
+<h2>Setting Up an Encrypted Dual-Boot System</h2>
+
+<p>The process for setting up an encrypted, dual-boot system
+is described <a href="https://ashgupta1971.github.io/WithEncryption/dual-boot-with-encryption.html" title="Dual-Boot With Encryption">here</a>.</p>
