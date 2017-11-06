@@ -47,8 +47,6 @@ This document also shows how to install several useful applications and
 utilities under Windows 10 and Linux Mint. The reader can skip those that are
 not of interest.
 
-All commands which are executed on the linux command line must be done so as root.
-
 ## Preliminary Steps
 
 The initial steps which need to be performed are the same for both procedures:
@@ -127,33 +125,33 @@ number of "instances" of their product you can install.
 
 First look for any logical volumes on the storage device with the following command:
 
-        $ lvs
+        $ sudo lvs
 
 For each logical volume, issue the command:
 
-        $ lvremove --verbose <lvname>
+        $ sudo lvremove --verbose <lvname>
 
 After all logical volumes have been removed, remove all volume groups. To
 list all volume groups, issue the command:
 
-        $ vgs
+        $ sudo vgs
 
 For each volume group, issue the command:
 
-        $ vgremove --verbose <vgname>
+        $ sudo vgremove --verbose <vgname>
 
 After all volume groups have been removed, remove all physical volumes. To
 list all physical volumes, issue the command:
 
-        $ pvs
+        $ sudo pvs
 
 For each physical volume, issue the command:
 
-        $ pvremove --verbose <pvname>
+        $ sudo pvremove --verbose <pvname>
 
 Now wipe all partition information from the storage device using fdisk:
 
-        $ fdisk /dev/sd<device identifier>
+        $ sudo fdisk /dev/sd<device identifier>
 
 At the fdisk prompt type "o" to erase the MBR and then type "w" to write
 all changes and exit the utility.
