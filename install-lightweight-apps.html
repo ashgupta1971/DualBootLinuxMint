@@ -53,25 +53,25 @@ and rename it <em>.zshrc</em>.</p></li>
 <pre><code>    $ sudo apt-get install vim-gtk
 </code></pre>
 
-<ol>
-<li>Get the vim configuration file <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/vimrc" title="vimrc"><em>vimrc</em></a> and copy it to <em>johndoe's</em> home directory
-with the name <em>.vimrc</em>.</li>
-</ol>
+<p>Get the vim configuration file <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/vimrc" title="vimrc"><em>vimrc</em></a> and copy it to <em>johndoe's</em> home directory
+with the name <em>.vimrc</em>.</p>
 
 <h2>Setup the Music Player Backend</h2>
 
-<ol>
-<li><p>Install the <em>Music Player Daemon</em>:</p>
+<p>The <em>Music Player Daemon</em> is meant to be used as the backend of a client/server music system. It can work with multiple
+instances of music player clients simultaneously and even stream music to other hosts.</p>
 
-<pre><code>$ sudo apt-get install mpd mpc
-</code></pre></li>
-<li><p>Configure the <em>Music Player Daemon</em> by first creating its working 
-and playlist directories:</p>
+<p>To install the <em>Music Player Daemon</em> execute:</p>
 
-<pre><code>$ mkdir -p ~/.config/mpd/playlists
-</code></pre></li>
-<li><p>Next, download the <em>Music Player Daemon</em> configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/mpd/mpd.conf" title="mpd.conf"><em>mpd.conf</em></a> and copy it to <em>~/.config/mpd/mpd.conf</em></p></li>
-</ol>
+<pre><code>    $ sudo apt-get install mpd mpc
+</code></pre>
+
+<p>Configure the <em>Music Player Daemon</em> by first creating its working and playlist directories:</p>
+
+<pre><code>    $ mkdir -p ~/.config/mpd/playlists
+</code></pre>
+
+<p>Next, download the <em>Music Player Daemon</em> configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/mpd/mpd.conf" title="mpd.conf"><em>mpd.conf</em></a> and copy it to <em>~/.config/mpd/mpd.conf</em></p>
 
 <h2>Install a Music Player</h2>
 

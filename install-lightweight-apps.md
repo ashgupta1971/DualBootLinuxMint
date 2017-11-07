@@ -46,21 +46,23 @@ We recommend the *vim* text editor because it is lightweight and very powerfull:
 
         $ sudo apt-get install vim-gtk
 
-1. Get the vim configuration file [*vimrc*](https://ashgupta1971.github.io/DualBootLinuxMint/Common/vimrc "vimrc") and copy it to *johndoe's* home directory
+Get the vim configuration file [*vimrc*](https://ashgupta1971.github.io/DualBootLinuxMint/Common/vimrc "vimrc") and copy it to *johndoe's* home directory
 with the name *.vimrc*.
 
 ## Setup the Music Player Backend
 
-1. Install the *Music Player Daemon*:
+The *Music Player Daemon* is meant to be used as the backend of a client/server music system. It can work with multiple
+instances of music player clients simultaneously and even stream music to other hosts.
+
+To install the *Music Player Daemon* execute:
 
         $ sudo apt-get install mpd mpc
 
-1. Configure the *Music Player Daemon* by first creating its working 
-and playlist directories:
+Configure the *Music Player Daemon* by first creating its working and playlist directories:
 
         $ mkdir -p ~/.config/mpd/playlists
 
-1. Next, download the *Music Player Daemon* configuration file [*mpd.conf*](https://github.com/ashgupta1971/dotfiles/blob/master/mpd/mpd.conf "mpd.conf") and copy it to *~/.config/mpd/mpd.conf*
+Next, download the *Music Player Daemon* configuration file [*mpd.conf*](https://github.com/ashgupta1971/dotfiles/blob/master/mpd/mpd.conf "mpd.conf") and copy it to *~/.config/mpd/mpd.conf*
 
 ## Install a Music Player
 
