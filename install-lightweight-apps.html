@@ -1,0 +1,151 @@
+<h1>Installing a Lightweight Window Manager and Associated Applications</h1>
+
+<p>Linux Mint is usually installed with the Cinnamon or Mate desktop environments.
+This section shows how to install the <em>i3 window manager</em> and some other
+applications not part of the default Linux Mint install. <em>i3</em> and these other
+apps draw fewer system resources and may be useful for an underpowered system.</p>
+
+<h2>Download Configuration Files from git Repository</h2>
+
+<ol>
+<li><p>Before installing any other software packages, update the package database:</p>
+
+<pre><code>$ sudo apt-get update
+</code></pre></li>
+<li><p>We will download some configuration files from a <em>git</em> repository. But first, we
+must install and configure <em>git</em>. Execute the following command in <em>johndoe's</em> home directory:</p>
+
+<pre><code>$ sudo apt-get install git
+$ git config --global user.name "John Doe"
+$ git config --global user.email "johndoe@server.com"
+$ git clone https://github.com/ashgupta1971/dotfiles.git
+</code></pre></li>
+</ol>
+
+<h2>Setup the Shell</h2>
+
+<p>By default, Linux Mint comes with the <em>Bash</em> shell. We recommend the <em>Z</em> shell, not because
+it is lightweight, but because it is much more powerfull.</p>
+
+<ol>
+<li><p>Install the Z Shell:</p>
+
+<pre><code>$ sudo apt-get install zsh zsh-docs
+$ chsh -s /usr/bin/zsh johndoe
+</code></pre></li>
+<li><p>Download the Z Shell configuration file <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/zshrc" title="zshrc"><em>zshrc</em></a> into <em>johndoe's</em> home directory
+and rename it <em>.zshrc</em>.</p></li>
+</ol>
+
+<h2>Install a File Browser</h2>
+
+<p>Linux Mint, by default, comes with the <em>Nemo</em> file browser. We recommend <em>thunar</em> instead:</p>
+
+<pre><code>    $ sudo apt-get install thunar
+</code></pre>
+
+<p><em>Thunar</em> is highly customizable, so configure it as necessary.</p>
+
+<h2>Install and Setup Vim</h2>
+
+<p>We recommend the <em>vim</em> text editor because it is lightweight and very powerfull:</p>
+
+<pre><code>    $ sudo apt-get install vim-gtk
+</code></pre>
+
+<ol>
+<li>Get the vim configuration file <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/vimrc" title="vimrc"><em>vimrc</em></a> and copy it to <em>johndoe's</em> home directory
+with the name <em>.vimrc</em>.</li>
+</ol>
+
+<h2>Setup the Music Player Backend</h2>
+
+<ol>
+<li><p>Install the <em>Music Player Daemon</em>:</p>
+
+<pre><code>$ sudo apt-get install mpd mpc
+</code></pre></li>
+<li><p>Configure the <em>Music Player Daemon</em> by first creating its working 
+and playlist directories:</p>
+
+<pre><code>$ mkdir -p ~/.config/mpd/playlists
+</code></pre></li>
+<li><p>Next, download the <em>Music Player Daemon</em> configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/mpd/mpd.conf" title="mpd.conf"><em>mpd.conf</em></a> and copy it to <em>~/.config/mpd/mpd.conf</em></p></li>
+</ol>
+
+<h2>Install a Music Player</h2>
+
+<p>The <em>Music Player Daemon</em> needs a music player to actually interface with the user. We recommend installing <em>ncmpcpp</em> for this purpose:</p>
+
+<pre><code>    $ sudo apt-get install ncmpcpp
+</code></pre>
+
+<p>Download the <em>ncmpcpp</em> configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/ncmpcpp/config" title="ncmpcpp config file"><em>config</em></a> and copy it to <em>~/.config/ncmpcpp/config</em>.</p>
+
+<h2>Setup the i3 Window Manager</h2>
+
+<p>As mentioned above, the <em>i3 window manager</em> is very lightweight. We will install and configure it in this section.</p>
+
+<ol>
+<li><p>Install the <em>i3 Window Manager</em>:</p>
+
+<pre><code>$ sudo apt-get install i3
+</code></pre></li>
+<li><p>Create the <em>i3 Window Manager</em> configuration directory: </p>
+
+<pre><code>$ mkdir -p ~/.config/i3/
+</code></pre></li>
+<li><p>Download the <em>i3 Window Manager</em> configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/i3/config" title="i3wm config file"><em>config</em></a> and copy it to <em>~/.config/i3/config</em>.</p></li>
+<li><p>Install the <em>i3 Window Manager status bar</em> and create its configuration directory:</p>
+
+<pre><code>$ sudo apt-get install i3status
+$ mkdir -p ~/.config/i3status
+</code></pre></li>
+<li><p>Configure the status bar:</p>
+
+<ul>
+<li>download its configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/i3status/config" title="i3wm status bar config file"><em>config</em></a> and copy it to <em>~/.config/i3status/config</em></li>
+<li>download the custom status bar configuration script <a href="https://github.com/ashgupta1971/dotfiles/blob/master/i3status/myi3status.sh" title="myi3status.sh"><em>myi3status.sh</em></a> and copy it to <em>~/.config/i3status/myi3status.sh</em></li>
+</ul></li>
+<li><p>Install the compositor <em>compton</em> (which handles window transparency), 
+<em>i3lock</em> lock screen, <em>rofi</em> application launcher and <em>feh</em> wallpaper manager:</p>
+
+<pre><code>$ sudo apt-get install compton i3lock rofi feh
+</code></pre></li>
+</ol>
+
+<h2>Setup MediaTomb</h2>
+
+<p>Mediatomb is a UPnP media server that allows you to stream your media library across your home. To install
+it type:</p>
+
+<pre><code>    $ sudo apt-get install mediatomb
+</code></pre>
+
+<p>The mediatomb configuration file is <em>~/.mediatomb/config.xml</em>. By default, the web UI is enabled and is insecure
+because it allows anyone to access all files on the sytem where mediatomb is installed. To disable the UI, change the line
+in the confiuration file that says:</p>
+
+<pre><code>    &lt;ui enabled="yes" poll-interval="2" poll-when-idle="no"/&gt;
+</code></pre>
+
+<p>to</p>
+
+<pre><code>    &lt;ui enabled="no" poll-interval="2" poll-when-idle="no"/&gt;
+</code></pre>
+
+<p>To launch mediatomb in daemon mode, enter the following command:</p>
+
+<pre><code>    $ mediatomb --port 49152 --daemon --home ~/Music --logfile ~/.mediatomb/mediatomb.log --config ~/.mediatomb/config.xml
+</code></pre>
+
+<p>If you want mediatomb to start automatically at boot then download this <a href="https://github.com/ashgupta1971/dotfiles/blob/master/mediatomb/mediatomb.service" title="mediatomb.service"><em>systemd unit file</em></a>.
+Place this file in <em>/etc/systemd/system</em>. Then execute the following commands:</p>
+
+<pre><code>    $ cd /etc/systemd/system
+    $ sudo chown root:root mediatomb.service
+    $ sudo chmod 664 mediatomb.service
+    $ sudo systemctl daemon-reload
+    $ sudo systemctl enable mediatomb.service
+    $ sudo systemctl start mediatomb.service
+</code></pre>
