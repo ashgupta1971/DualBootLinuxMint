@@ -263,4 +263,4 @@ is described [here](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncr
 ## Setting Up an Encrypted Dual-Boot System
 
 The process for setting up an encrypted, dual-boot system
-is described [here](https://ashgupta1971.github.io/WithEncryption/DualBootLinuxMint/dual-boot-with-encryption.html "Dual-Boot With Encryption").
+is described [here](https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/dual-boot-with-encryption.html "Dual-Boot With Encryption").
