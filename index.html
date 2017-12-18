@@ -17,7 +17,7 @@ makes:</p>
 <li>The storage device is a hard disk drive, not a SSD.</li>
 <li>The storage device is in MBR format (not UEFI) and will be
 kept that way.</li>
-<li>There may be an existing instance of Windows 10 installed 
+<li>There may be an existing instance of Windows 10 installed
 along with data that needs to be preserved. If this is not the
 case then the reader can omit the relevant sections.</li>
 <li>The data which needs to be preserved will be placed in separate
@@ -26,7 +26,7 @@ partitions (ie. for music, google drive data, etc.).</li>
 be deactivated and reinstalled after the fresh install of Windows 10.</li>
 <li>There may be existing LVM metadata on the drive which needs to
 be removed. Again, skip the relevant sections if this is not the case.</li>
-<li>The storage device will be completely erased and a 
+<li>The storage device will be completely erased and a
 fresh install of Windows 10 and Linux Mint will be performed.</li>
 <li>You have Oracle Virtualbox installed along with one or more virtual
 machines which need to be preserved.</li>
@@ -35,18 +35,24 @@ not Windows 10 (the space alloted to the two operating systems
 reflects this assumption).</li>
 </ul>
 
+
 <p>Also, it is assumed the reader has some knowledge of the following:</p>
 
 <ul>
-<li>Using <em>Veracrypt</em> to perform system partition and non-system partition encryption
-under Windows 10</li>
 <li>Basic linux command line usage</li>
 <li>How to set up partitions using the linux <em>fdisk</em> utility</li>
 </ul>
 
-<p>It doesn't matter which version of Windows 10 
-(32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
-on installing. </p>
+
+<p>It doesn&rsquo;t matter which version of Windows 10
+(32-bit, 64-bit, Home, Professional) or Linux Mint you plan
+on installing.</p>
+
+<p>Due to technical limitations, it is not possible to encrypt both Windows 10
+and Linux Mint. This document only describes the procedure for an unencrypted
+Windows 10 partition and an encrypted Linux Mint partition. Also, partitions
+containing data (music, Google drive, etc.) must be kept unencrypted as well
+in order to be accessible from both Windows 10 and Linux Mint.</p>
 
 <p>This document also shows how to install several useful applications and
 utilities under Windows 10 and Linux Mint. The reader can skip those that are
@@ -66,6 +72,7 @@ not of interest.</p>
 <li>Create New Partitions on Storage Device.</li>
 <li>Install and Configure Windows 10.</li>
 </ol>
+
 
 <h3>Download Windows 10 ISO File and Burn it to a USB Flash Drive</h3>
 
@@ -92,6 +99,7 @@ is normal and just wait for it to finish.</p>
 <li>graphics card</li>
 <li>Intel RST (Rapid Storage Technology) drivers (if you are using RAID or an SSD/M.2 drive)</li>
 </ul>
+
 
 <p>Copy them in a folder on the same USB drive containing the Windows 10 ISO.</p>
 
@@ -127,12 +135,13 @@ containing the Linux Mint ISO file):</p>
 <li>export all Oracle Virtualbox VMs as appliances to an external drive</li>
 </ul>
 
+
 <h3>Deactivate Norton Security</h3>
 
-<p>If you don't deactivate Norton Security before reinstalling Windows, 
-your Norton online account will still assume you have an "instance" of 
+<p>If you don&rsquo;t deactivate Norton Security before reinstalling Windows,
+your Norton online account will still assume you have an &ldquo;instance&rdquo; of
 their product activated and running. This will count against the total
-number of "instances" of their product you can install.</p>
+number of &ldquo;instances&rdquo; of their product you can install.</p>
 
 <h3>Wipe LVMs and Partitions on Storage Device</h3>
 
@@ -173,13 +182,13 @@ list all physical volumes, issue the command:</p>
 <pre><code>    $ sudo fdisk /dev/sd&lt;device identifier&gt;
 </code></pre>
 
-<p>At the fdisk prompt type "o" to erase the MBR and then type "w" to write
+<p>At the fdisk prompt type &ldquo;o&rdquo; to erase the MBR and then type &ldquo;w&rdquo; to write
 all changes and exit the utility.</p>
 
 <h3>Create New Partitions on Storage Device</h3>
 
 <p>Create the following partitions on the storage device using fdisk (use
-a partition type of "7" for NTFS partitions):</p>
+a partition type of &ldquo;7&rdquo; for NTFS partitions):</p>
 
 <ol>
 <li>a 100 GiB <em>Windows 10</em> primary partition formatted as <em>NTFS</em></li>
@@ -192,12 +201,13 @@ a partition type of "7" for NTFS partitions):</p>
 <li>a 200 GiB <em>Data</em> logical partition formatted as <em>NTFS</em></li>
 </ol>
 
+
 <p>This will leave approximately 50 GB of empty space on the storage
 device for future use.</p>
 
 <p>To format partitions with the NTFS file system, use the command:</p>
 
-<pre><code>    $ sudo mkfs -t NTFS -f -L &lt;partition label&gt; /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
+<pre><code>    $ sudo mkfs -t ntfs -f -L &lt;partition label&gt; /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
 </code></pre>
 
 <h3>Install and Configure Windows 10</h3>
@@ -207,30 +217,37 @@ device for future use.</p>
 <ol>
 <li>Insert the USB flash drive containing Windows 10 and boot from it.</li>
 <li>Go through the installtion procedure.</li>
-<li>Choose the <em>Windows 10</em> partition when prompted (this should be partition number 1). 
+<li>Choose the <em>Windows 10</em> partition when prompted (this should be partition number 1).
 <em>Note: Because we are telling Windows to install in a specific partition, it will not generate
 a separate <strong>System Reserved</strong> partition. Instead, it will place all files in the partition we
 have chosen.</em></li>
-<li>Make sure not to choose "Express Install" when prompted (this will enable various "snooping" options).</li>
+<li>Make sure not to choose &ldquo;Express Install&rdquo; when prompted (this will enable various &ldquo;snooping&rdquo; options).</li>
 <li>When prompted for the first user account, choose the name <em>admin</em> but ensure it is created as a <em>local</em> account not a <em>One Drive</em> account.</li>
 </ol>
+
 
 <h4>After Install</h4>
 
 <ol>
 <li>Disconnect from the internet.</li>
 <li>Install all the drivers previously downloaded, in the following order:
+
 <ul>
 <li>chipset</li>
 <li>LAN</li>
 <li>audio</li>
 <li>USB 3</li>
 <li>graphics card</li>
-</ul></li>
+</ul>
+</li>
 <li>Create a <em>local</em>, <em>non-adminstrator</em> account called <em>johndoe</em>.</li>
 <li>Create a <em>visitor</em> account by running this <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/create-visitor-account.bat" title="Visitor account creation script">batch script</a>
 from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER>.</li>
 <li>Enable restore points on the C partition (Windows 10 disables them by default).</li>
+<li>Windows 10, by default, assumes the hardware clock is in local time. Linux Mint, by default, assumes it is in UTC time. To reconcile
+this difference, we will perform a registry edit to tell Windows 10 that the hardware clock is in UTC time. Download the
+<a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/WinSetTimeStandard.reg" title="Registry Edit - Set Time to UTC">registry edit</a>
+and run it as administrator.</li>
 <li>Delete the hidden file <em>C:\Users\johndoe\Music\desktop.ini</em> and map the <em>Music</em> partition to this folder.</li>
 <li>Create a folder <em>C:\Users\johndoe\Google Drive</em> and map the <em>Google Drive</em> partition to it.</li>
 <li>Create a folder <em>C:\Users\johndoe\Shared Documents</em> and map the <em>Shared Documents</em> partition to it.</li>
@@ -241,6 +258,7 @@ from an administrator command prompt. When the script prompts for a visitor pass
 <li>Install all outstanding Windows 10 updates.</li>
 <li>Download and install the driver and software for your printer.</li>
 </ol>
+
 
 <h4>Install Software</h4>
 
@@ -273,12 +291,11 @@ in bulk later.</em></p>
 <li>LibreOffice</li>
 <li>Malwarebytes</li>
 <li>KeePass 2</li>
-</ul></li>
-<li><p>If the reader is performing an encrypted system setup, then download and install 
-<a href="https://www.veracrypt.fr/en/Downloads.html" title="Veracrypt"><em>Veracrypt</em></a> (do not use the portable version).</p></li>
-<li>Download and install <a href="https://www.tracker-software.com/product/pdf-xchange-viewer" title="PDF-XChange Viewer"><em>PDF-XChange Viewer</em></a>.</li>
+</ul>
+</li>
+<li><p>Download and install <a href="https://www.tracker-software.com/product/pdf-xchange-viewer" title="PDF-XChange Viewer"><em>PDF-XChange Viewer</em></a>.</p></li>
 <li>Download and install <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html" title="Oracle Virtualbox"><em>Oracle Virtualbox</em></a>.</li>
-<li>Install <a href="http://www.vim.org"><em>gvim</em></a>, download the 
+<li>Install <a href="http://www.vim.org"><em>gvim</em></a>, download the
 <a href="https://github.com/ashgupta1971/dotfiles/blob/master/vim/.vimrc" title=".vimrc"><em>vimrc</em> configuration file</a> and copy it to <em>C:\Users\johndoe\_vimrc</em>.</li>
 <li>Remove unnecessary programs from startup using Windows' <em>msconfig</em> utility.</li>
 <li>Import all Oracle Virtualbox appliances previously exported.</li>
@@ -286,6 +303,7 @@ in bulk later.</em></p>
 <li>Configure the desktop as desired.</li>
 <li>Calibrate the display using Windows' <em>calibrate</em> utility.</li>
 </ol>
+
 
 <h2>Setting Up a Non-Encrypted Dual-Boot System</h2>
 

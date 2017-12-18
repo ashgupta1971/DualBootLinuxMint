@@ -34,14 +34,18 @@ reflects this assumption).
   
 Also, it is assumed the reader has some knowledge of the following:
 
-* Using *Veracrypt* to perform system partition and non-system partition encryption
-under Windows 10
 * Basic linux command line usage
 * How to set up partitions using the linux *fdisk* utility
 
 It doesn't matter which version of Windows 10 
 (32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
 on installing. 
+
+Due to technical limitations, it is not possible to encrypt both Windows 10
+and Linux Mint. This document only describes the procedure for an unencrypted
+Windows 10 partition and an encrypted Linux Mint partition. Also, partitions
+containing data (music, Google drive, etc.) must be kept unencrypted as well
+in order to be accessible from both Windows 10 and Linux Mint.
 
 This document also shows how to install several useful applications and
 utilities under Windows 10 and Linux Mint. The reader can skip those that are
@@ -175,7 +179,7 @@ device for future use.
 
 To format partitions with the NTFS file system, use the command:
 
-        $ sudo mkfs -t NTFS -f -L <partition label> /dev/sd<drive identifier><partition identifier>
+        $ sudo mkfs -t ntfs -f -L <partition label> /dev/sd<drive identifier><partition identifier>
 
 ### Install and Configure Windows 10
 
@@ -203,6 +207,10 @@ have chosen.*
 1. Create a *visitor* account by running this [batch script](https://ashgupta1971.github.io/DualBootLinuxMint/Common/create-visitor-account.bat "Visitor account creation script")
  from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER>.
 1. Enable restore points on the C partition (Windows 10 disables them by default).
+1. Windows 10, by default, assumes the hardware clock is in local time. Linux Mint, by default, assumes it is in UTC time. To reconcile
+ this difference, we will perform a registry edit to tell Windows 10 that the hardware clock is in UTC time. Download the
+ [registry edit](https://ashgupta1971.github.io/DualBootLinuxMint/Common/WinSetTimeStandard.reg "Registry Edit - Set Time to UTC") 
+ and run it as administrator.
 1. Delete the hidden file *C:\Users\johndoe\Music\desktop.ini* and map the *Music* partition to this folder.
 1. Create a folder *C:\Users\johndoe\Google Drive* and map the *Google Drive* partition to it.
 1. Create a folder *C:\Users\johndoe\Shared Documents* and map the *Shared Documents* partition to it.
@@ -243,8 +251,6 @@ in bulk later.*
     * Malwarebytes
     * KeePass 2
 
-1. If the reader is performing an encrypted system setup, then download and install 
-[*Veracrypt*](https://www.veracrypt.fr/en/Downloads.html "Veracrypt") (do not use the portable version).
 1. Download and install [*PDF-XChange Viewer*](https://www.tracker-software.com/product/pdf-xchange-viewer "PDF-XChange Viewer").
 1. Download and install [*Oracle Virtualbox*](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
 1. Install [*gvim*](http://www.vim.org), download the 
