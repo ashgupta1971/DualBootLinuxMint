@@ -263,10 +263,32 @@ in bulk later.*
 
 ## Setting Up a Non-Encrypted Dual-Boot System
 
-The process for setting up a non-encrypted, dual-boot system
-is described [here](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/dual-boot-without-encryption.html "Dual-Boot Without Encryption").
+Now that Windows 10 has been installed, we can install Linux Mint as described
+[here](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/dual-boot-without-encryption.html "Dual-Boot Without Encryption").
 
 ## Setting Up an Encrypted Dual-Boot System
 
-The process for setting up an encrypted, dual-boot system
-is described [here](https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/dual-boot-with-encryption.html "Dual-Boot With Encryption").
+To finish setting up the system, setup an encrypted Linux Mint partition as described
+[here](https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/dual-boot-with-encryption.html "Dual-Boot With Encryption").
+
+## Make Separate Images of the Windows 10 and Linux Mint Partitions
+
+Boot from a USB flash drive containing Clonezilla and use it to make
+an image of the 100 GiB Windows 10 partition to an external hard drive.
+
+Do the same for the Linux Mint partition.
+
+*Note: Do not make images of the Google Drive, Music, Ebooks, Data,
+ Shared Documents or Virtual Machine partitions.*
+
+## Restore Data from Backups
+
+1. Restore all music to the folder *C:\Users\johndoe\Music*.
+1. Restore all ebooks to the folder *C:\Users\johndoe\Ebooks*.
+1. Download all files from *johndoe's* Google Drive account into the folder *C:\Users\johndoe\Google Drive*.
+1. Restore the contents of the *Data* partition.
+1. Copy the *johndoe.kdbx* password file back to the folder *C:\Users\johndoe\Shared Documents*.
+
+***
+
+**Congratulations! You have successfully setup a dual boot Windows 10/Linux Mint system.**

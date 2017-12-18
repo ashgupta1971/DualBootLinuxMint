@@ -1,353 +1,44 @@
-<h1>Setting Up a Dual-Boot Windows 10 and Linux Mint System With Encryption</h1>
+<h1>Install and Configure Linux Mint (Encrypted)</h1>
 
-<hr />
-
-<h2>Introduction</h2>
-
-<p>This document explains how to setup a dual-boot Windows 10
-and Linux Mint system, with filesystem encryption, from start to finish. </p>
-
-<p>Here are the assumptions about your system that this document
-makes:</p>
-
-<ul>
-<li>The storage device being used is 1 TB in size.</li>
-<li>The storage device is a hard disk drive, not a SSD.</li>
-<li>The storage device is in MBR format (not UEFI) and will be
-kept that way.</li>
-<li>There may be an existing instance of Windows 10 installed 
-along with data that needs to be preserved.</li>
-<li>The storage device will be completely erased and a 
-fresh install of Windows 10 and Linux Mint will be performed.</li>
-<li>The data which needs to be preserved will be placed in separate
-partitions (ie. for music, google drive data, etc.).</li>
-<li>You have Norton Security installed and this product needs to
-be deactivated and reinstalled after the fresh install of Windows 10.</li>
-<li>You have Oracle Virtualbox installed along with one or more virtual
-machines which need to be preserved.</li>
-<li>Your primary day-to-day operating system will be Linux Mint
-not Windows 10 (the space alloted to the two operating systems
-reflects this assumption).</li>
-</ul>
-
-<p>It doesn't matter which version of Windows 10 
-(32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
-on installing. </p>
-
-<p>This document also shows how to install several useful applications and
-utilities under Windows 10 and Linux Mint. You can skip those that do not
-interest you.</p>
-
-<p>All the steps shown below assume you are working within a Linux Mint live
-environment as root.</p>
-
-<h2>Outline of Steps</h2>
-
-<ol>
-<li>Download Windows 10 ISO file and burn it to a USB flash drive.</li>
-<li>Download any drivers needed for new Windows 10 installation and save them on USB flash drive.</li>
-<li>Download Linux Mint ISO file, verify checksum and burn ISO to a USB flash drive.</li>
-<li>Backup existing data to an external drive.</li>
-<li>Deactivate Norton Security on existing Windows installation.</li>
-<li>Wipe LVM data and partition tables on storage device.</li>
-<li>Setup new partitions on storage device.</li>
-<li>Install and configure Windows 10.</li>
-<li>Restore data partitions (ie. music, google drive, etc.)</li>
-<li>Reimport Virtualbox appliances.</li>
-<li>Encrypt Windows 10 system partition with Veracrypt.</li>
-<li>Encrypt data partitions with Veracrypt.</li>
-<li>Install and configure Linux Mint.</li>
-<li>Boot into Veracrypt's rescue disk and overwrite space after MBR with Veracrypt's volume header.</li>
-</ol>
-
-<h2>Caveats</h2>
-
-<p>To boot into a Windows 10 system which has been encrypted with
-Veryacrypt, the Veracrypt boot loader must be used. However, the
-Veracrypt boot loader cannot recognize Linux Mint on the same system
-if the Linux Mint partition has been encrypted. Also, the Linux Mint
-boot loader, GRUB, cannot recognize a Windows 10 system partition encrypted
-with Veracrypt.</p>
-
-<p>To resolve this problem, we will create a Veracrypt rescue CD containing
-the Veracrypt boot loader and use this disk to boot into Windows 10
-whenever required. </p>
-
-<p>When we are finished, the storage device's MBR will contain Linux
-Mint's GRUB boot loader and the space after the MBR but before the first
-partition will be overwritten with Veracrypt's volume header (this is needed
-by Veracrypt's boot loader to boot into Windows 10).</p>
-
-<p>Finally, the data partitions (ie. music, google drive, etc.) must be encrypted
-with Veracrypt because Windows 10 does not recognize Linux Mint's encryption scheme
-but Linux Mint does recognize partitions encrypted with Veracrypt. When encrypting
-the data partitions using Veracrypt, a hash algorithm of <em>SHA256</em>, not <em>SHA512</em>, must
-be used (Linux Mint doesn't recognize the latter).</p>
-
-<h2>Download Windows 10 ISO File and Burn it to a USB Flash Drive</h2>
-
-<p>Download the <a href="https://www.microsoft.com/en-us/software-download/windows10ISO" title="Windows 10 ISO">Windows 10 ISO file</a>.</p>
-
-<p>Burn it to a USB flash drive from the command line as follows:</p>
-
-<pre><code>    $ sudo mkfs.vfat -n "Windows10" -I /dev/sd&lt;drive identifier&gt;
-    $ sudo dd status=progress bs=1M if=&lt;path to Windows 10 ISO file&gt; of=/dev/sd&lt;drive identifier&gt;
-</code></pre>
-
-<p>Note that the <code>dd</code> command may appear to freeze for several minutes. This
-is normal and just wait for it to finish.</p>
-
-<h2>Download Windows 10 Drivers</h2>
-
-<p>Download the following drivers from the manufacturers' websites:</p>
-
-<ul>
-<li>chipset</li>
-<li>LAN</li>
-<li>audio</li>
-<li>USB 3</li>
-<li>graphics card</li>
-<li>Intel RST (Rapid Storage Technology) drivers (if you are using RAID or an SSD/M.2 drive)</li>
-</ul>
-
-<p>Copy them in a folder on the same USB drive containing the Windows 10 ISO.</p>
-
-<h2>Download, Verify and Burn Linux Mint ISO File</h2>
-
-<p>Download the <a href="https://www.linuxmint.com/download.php" title="Linux Mint ISO Download">Linux Mint ISO file</a> of your choice.
-Also download the <em>sha256 checksum text file</em>, its associated <em>signature file</em> and make a note of the <em>fingerprint</em> for
-the <em>public GPG Linux Mint key</em>. Verify the ISO image using the following commands (these must be run inside the directory
-containing the Linux Mint ISO file):</p>
-
-<pre><code>    $ sha256sum --ignore-missing -c &lt;sha256 checksum text file&gt;
-    $ gpg --recv-key &lt;linux mint public key fingerprint&gt; --keyserver keyserver.ubuntu.com
-    $ gpg --verify &lt;signature file&gt; &lt;sha256 checksum text file&gt;
-</code></pre>
-
-<p>Burn the ISO file to a USB flash drive as follows:</p>
-
-<pre><code>    $ sudo mkfs.vfat -n "LinuxMint" -I /dev/sd&lt;drive identifier&gt;
-    $ sudo dd status=progress bs=1M if=&lt;path to Linux Mint ISO file&gt; of=/dev/sd&lt;drive identifier&gt;
-</code></pre>
-
-<h2>Backup Data to Storage Device</h2>
-
-<p>Backup the following items to your storage device:</p>
-
-<ul>
-<li><em>Downloads</em> folder</li>
-<li><em>Documents</em> folder</li>
-<li><em>Music</em> folder</li>
-<li><em>Google Drive</em> folder</li>
-<li>any folders in the <em>Data</em> partition</li>
-<li>the <em>johndoe.kdbx</em> password file</li>
-<li>export all Oracle Virtualbox VMs as appliances to an external drive</li>
-</ul>
-
-<h2>Deactivate Norton Security</h2>
-
-<p>If you don't deactivate Norton Security before reinstalling Windows, 
-your Norton online account will still assume you have an "instance" of 
-their product activated and running. This will count against the total
-number of "instances" of their product you can install.</p>
-
-<h2>Wipe LVMs and Partitions on Storage Device</h2>
-
-<p>First look for any logical volumes on the storage device with the following command:</p>
-
-<pre><code>    $ lvs
-</code></pre>
-
-<p>For each logical volume, issue the command:</p>
-
-<pre><code>    $ lvremove --verbose &lt;lvname&gt;
-</code></pre>
-
-<p>After all logical volumes have been removed, remove all volume groups. To
-list all volume groups, issue the command:</p>
-
-<pre><code>    $ vgs
-</code></pre>
-
-<p>For each volume group, issue the command:</p>
-
-<pre><code>    $ vgremove --verbose &lt;vgname&gt;
-</code></pre>
-
-<p>After all volume groups have been removed, remove all physical volumes. To
-list all physical volumes, issue the command:</p>
-
-<pre><code>    $ pvs
-</code></pre>
-
-<p>For each physical volume, issue the command:</p>
-
-<pre><code>    $ pvremove --verbose &lt;pvname&gt;
-</code></pre>
-
-<p>Now wipe all partition information from the storage device using fdisk:</p>
-
-<pre><code>    $ fdisk /dev/sd&lt;device identifier&gt;
-</code></pre>
-
-<p>At the fdisk prompt type "o" to erase the MBR and then type "w" to write
-all changes and exit the utility.</p>
-
-<h2>Create New Partitions on Storage Device</h2>
-
-<p>Create the following partitions on the storage device using fdisk (use
-a partition type of "7" for NTFS partitions):</p>
-
-<ol>
-<li>a 100 GiB <em>Windows 10</em> primary partition formatted as <em>NTFS</em></li>
-<li>a 450 GiB <em>Linux Mint</em> unformatted, logical partition</li>
-<li>a 25 GiB <em>Shared Documents</em> logical partition formatted as <em>NTFS</em></li>
-<li>a 25 GiB <em>Music</em> logical partition formatted as <em>NTFS</em></li>
-<li>a 25 GiB <em>Google Drive</em> logical partition formatted as <em>NTFS</em></li>
-<li>a 10 GiB <em>Ebooks</em> logical partition formatted as <em>NTFS</em></li>
-<li>a 50 GiB <em>Windows Virtual Machines</em> logical partition formatted as <em>NTFS</em></li>
-<li>a 200 GiB <em>Data</em> logical partition formatted as <em>NTFS</em></li>
-</ol>
-
-<p>This will leave approximately 50 GB of empty space on the storage
-device for future use.</p>
-
-<p>To format partitions with the NTFS file system, use the command:</p>
-
-<pre><code>    $ sudo mkfs -t NTFS -f -L &lt;partition label&gt; /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
-</code></pre>
-
-<h2>Install and Configure Windows 10</h2>
-
-<h3>During Install</h3>
-
-<ol>
-<li>Insert the USB flash drive containing Windows 10 and boot from it.</li>
-<li>Go through the installtion procedure.</li>
-<li>Choose the <em>Windows 10</em> partition when prompted (this should be partition number 1). 
-<em>Note: Because we are telling Windows to install in a specific partition, it will not generate
-a separate <strong>System Reserved</strong> partition. Instead, it will place all files in the partition we
-have chosen.</em></li>
-<li>Make sure not to choose "Express Install" when prompted (this will enable various "snooping" options).</li>
-<li>When prompted for the first user account, choose the name <em>admin</em> but ensure it is created as a <em>local</em> account not a <em>One Drive</em> account.</li>
-</ol>
-
-<h3>After Install</h3>
-
-<ol>
-<li>Disconnect from the internet.</li>
-<li>Install all the drivers previously downloaded, in the following order:
-<ul>
-<li>chipset</li>
-<li>LAN</li>
-<li>audio</li>
-<li>USB 3</li>
-<li>graphics card</li>
-</ul></li>
-<li>Create a <em>local</em>, <em>non-adminstrator</em> account called <em>johndoe</em>.</li>
-<li>Create a <em>visitor</em> account by running this <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/create-visitor-account.bat" title="Visitor account creation script">batch script</a>
-from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER>.</li>
-<li>Enable restore points on the C partition (Windows 10 disables them by default).</li>
-<li>Delete the hidden file <em>C:\Users\johndoe\Music\desktop.ini</em> and map the <em>Music</em> partition to this folder.</li>
-<li>Create a folder <em>C:\Users\johndoe\Google Drive</em> and map the <em>Google Drive</em> partition to it.</li>
-<li>Create a folder <em>C:\Users\johndoe\Shared Documents</em> and map the <em>Shared Documents</em> partition to it.</li>
-<li>Create a folder <em>C:\Users\johndoe\Ebooks</em> and map the <em>Ebooks</em> partition to it.</li>
-<li>Create a folder <em>C:\Users\johndoe\VirtualBox VMs</em> and map the <em>Windows Virtual Machines</em> partition to it.</li>
-<li>Set permissions for the <em>Data</em> partition so that only <em>admin</em> and <em>johndoe</em> can access it.</li>
-<li>Connect to the internet, download and install <em>Norton Security</em> and all security updates.</li>
-<li>Install all outstanding Windows 10 updates.</li>
-<li>Download and install the driver and software for your printer.</li>
-</ol>
-
-<h4>Install Software</h4>
-
-<ol>
-<li><p>Visit <a href="https://ninite.com/" title="Ninite">Ninite</a> and download and install the following software.
-<em>Note: Keep the Ninite installer download. You can use it to update all these applications
-in bulk later.</em></p>
-
-<ul>
-<li>Chrome</li>
-<li>Opera</li>
-<li>Firefox</li>
-<li>TeamViewer 12</li>
-<li>ImgBurn</li>
-<li>CDBurnerXP</li>
-<li>Revo</li>
-<li>InfraRecorder</li>
-<li>Skype</li>
-<li>7-zip</li>
-<li>PeaZip</li>
-<li>VLC</li>
-<li>MusicBee</li>
-<li>K-Lite Codecs</li>
-<li>Spotify</li>
-<li>CCCP</li>
-<li>FileZilla</li>
-<li>Notepad++</li>
-<li>WinSCP</li>
-<li>PuTTY</li>
-<li>LibreOffice</li>
-<li>Malwarebytes</li>
-<li>KeePass 2</li>
-</ul></li>
-<li><p>Download and install <a href="https://www.veracrypt.fr/en/Downloads.html" title="Veracrypt"><em>Veracrypt</em></a> (do not use the portable version).</p></li>
-<li>Download and install <a href="https://www.tracker-software.com/product/pdf-xchange-viewer" title="PDF-XChange Viewer"><em>PDF-XChange Viewer</em></a>.</li>
-<li>Download and install <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html" title="Oracle Virtualbox"><em>Oracle Virtualbox</em></a>.</li>
-<li>Install <a href="http://www.vim.org"><em>gvim</em></a>, download the 
-<a href="https://github.com/ashgupta1971/dotfiles/blob/master/vim/.vimrc" title=".vimrc"><em>vimrc</em> configuration file</a> and copy it to <em>C:\Users\johndoe\_vimrc</em>.</li>
-<li>Remove unnecessary programs from startup using Windows' <em>msconfig</em> utility.</li>
-<li>Import all Oracle Virtualbox appliances previously exported.</li>
-<li>Restore data to all data partitions (ie. music, google drive, etc.).</li>
-<li>Configure the desktop as desired.</li>
-<li>Calibrate the display using Windows' <em>calibrate</em> utility.</li>
-</ol>
-
-<h4>Encrypt Windows 10 System Partition and Non-system Data Partitions</h4>
-
-<p>Follow Veracrypt's wizard to encrypt the Windows 10 system partition. Afterwards,
-encrypt all data partitions making sure to use a hash algorithm of <em>SHA256</em>.</p>
-
-<h2>Install and Configure Linux Mint</h2>
-
-<h3>Prior to Running Linux Mint Installer</h3>
+<h2>Prior to Running Linux Mint Installer</h2>
 
 <ol>
 <li>Insert and boot from the USB flash drive containing Linux Mint.</li>
 <li>Open a terminal window.</li>
 <li><p>Determine the numbers for the <em>Linut Mint</em> partition using the command:</p>
 
-<pre><code>$ lsblk
+<pre><code> $ lsblk
 </code></pre></li>
 <li><p>Format the Linux Mint partition for encryption:</p>
 
-<pre><code>$ cryptsetup --type luks format /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
+<pre><code> $ cryptsetup --type luks format /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
 </code></pre></li>
 <li><p><strong>NOTE: For even stronger security, use the following command instead of the one above:</strong></p>
 
-<pre><code>$ sudo cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random luksFormat /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
+<pre><code> $ sudo cryptsetup -v --cipher aes-xts-plain64 --key-size 512 --hash sha512 --iter-time 5000 --use-random luksFormat /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
 </code></pre></li>
 </ol>
 
-<p><strong>A value of --iter-time 100000 will increase security but will increase boot times to 5 minutes on a Core i5 system.</strong></p>
+
+<p><strong>A value of &ndash;iter-time 100000 will increase security but will increase boot times to 5 minutes on a Core i5 system.</strong></p>
 
 <ol>
-<li><p>"Open" (unencrypt) the newly formatted partition:</p>
+<li><p>&ldquo;Open&rdquo; (unencrypt) the newly formatted partition:</p>
 
-<pre><code>$ cryptsetup --type luks open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
+<pre><code> $ cryptsetup --type luks open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
 </code></pre></li>
 <li><p>Create a physical LVM volume from the <em>Linux Mint</em> partition using the command:</p>
 
-<pre><code>$ sudo pvcreate -v /dev/mapper/mint_crypt
+<pre><code> $ sudo pvcreate -v /dev/mapper/mint_crypt
 </code></pre></li>
 <li><p>Create a LVM volume group from the physical volume created above using the command:</p>
 
-<pre><code>$ sudo vgcreate -v vg01 /dev/mapper/mint_crypt
+<pre><code> $ sudo vgcreate -v vg01 /dev/mapper/mint_crypt
 </code></pre></li>
 <li><p>Create a 75 GiB <em>root</em> logical volume and format it as <em>ext4</em> using the commands:</p>
 
-<pre><code>$ sudo lvcreate -v -L 75G -n root vg01
-$ sudo mkfs -t ext4 -L &lt;partition label&gt; /dev/vg01/root
+<pre><code> $ sudo lvcreate -v -L 75G -n root vg01
+ $ sudo mkfs -t ext4 -L &lt;partition label&gt; /dev/vg01/root
 </code></pre></li>
 <li><p>Repeat the above commands to create the following logical volumes (format all as <em>ext4</em>):</p>
 
@@ -358,10 +49,12 @@ $ sudo mkfs -t ext4 -L &lt;partition label&gt; /dev/vg01/root
 <li>a 75 GiB <em>var</em> logical volume</li>
 <li>a 200 GiB <em>VMs</em> logical volume (this will contain all Oracle Virtualbox VMs)</li>
 <li>a 5 GiB <em>swap</em> logical volume (if you are using a laptop, this should match your RAM amount)</li>
-</ul></li>
+</ul>
+</li>
 </ol>
 
-<h3>Run the Linux Mint Installer</h3>
+
+<h2>Run the Linux Mint Installer</h2>
 
 <p>Execute the following command to run the Linux Mint installer:</p>
 
@@ -369,74 +62,76 @@ $ sudo mkfs -t ext4 -L &lt;partition label&gt; /dev/vg01/root
 </code></pre>
 
 <p>Go through the steps in the Linux Mint installer. When prompted to setup partitions,
-select <em>something else</em> and map the logical volumes created above to their 
+select <em>something else</em> and map the logical volumes created above to their
 appropriate mount points.</p>
 
-<h3>Create an Encryption Keyfile</h3>
+<h2>Create an Encryption Keyfile</h2>
 
 <ol>
 <li><p>Execute the following commands:</p>
 
-<pre><code>$ sudo mount --bind /dev /mnt/dev
-$ sudo mount --bind /dev/pts /mnt/dev/pts
-$ sudo mount --bind /sys /mnt/sys
-$ sudo mount --bind /proc /mnt/proc
-$ sudo mount --bind /run /mnt/run
+<pre><code> $ sudo mount --bind /dev /mnt/dev
+ $ sudo mount --bind /dev/pts /mnt/dev/pts
+ $ sudo mount --bind /sys /mnt/sys
+ $ sudo mount --bind /proc /mnt/proc
+ $ sudo mount --bind /run /mnt/run
 </code></pre></li>
 <li><p>Now create the keyfile needed to unlock the filesystem on boot:</p>
 
-<pre><code>$ dd bs=512 count=4 if=/dev/urandom of=/mnt/boot/crypto_keyfile.bin
-$ cryptsetup luksAddKey /dev/sd&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt; /mnt/boot/crypto_keyfile.bin
-$ chmod 000 /mnt/boot/crypto_keyfile.bin
-$ chmod -R go-rwx /mnt/boot
+<pre><code> $ dd bs=512 count=4 if=/dev/urandom of=/mnt/boot/crypto_keyfile.bin
+ $ cryptsetup luksAddKey /dev/sd&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt; /mnt/boot/crypto_keyfile.bin
+ $ chmod 000 /mnt/boot/crypto_keyfile.bin
+ $ chmod -R go-rwx /mnt/boot
 </code></pre></li>
-<li><p><strong>Note: If you have chosen to use very strong encryption standards (as mentioned above when formatting the device), 
+<li><p><strong>Note: If you have chosen to use very strong encryption standards (as mentioned above when formatting the device),
 then replace the first of the four commands above to:</strong></p>
 
-<pre><code>$ sudo dd bs=512 count=4 if=/dev/random iflag=fullblock of=/mnt/boot/crypto_keyfile.bin
+<pre><code>  $ sudo dd bs=512 count=4 if=/dev/random iflag=fullblock of=/mnt/boot/crypto_keyfile.bin
 </code></pre></li>
 </ol>
+
 
 <p><strong>This command will take 30 to 40 minutes to run on a Core i5 system (but only during installation.)</strong></p>
 
 <ol>
 <li><p>Create an initramfs hook with the following commands:</p>
 
-<pre><code>$ echo "cp /boot/crypto_keyfile.bin \"\${DESTDIR}\"" | sudo tee -a /mnt/etc/initramfs-tools/hooks/crypto_keyfile
-$ chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
+<pre><code> $ echo "cp /boot/crypto_keyfile.bin \"\${DESTDIR}\"" | sudo tee -a /mnt/etc/initramfs-tools/hooks/crypto_keyfile
+ $ chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
 </code></pre></li>
 <li><p>Copy the output of the following command (this gives the UUID of the Linux Mint partition):</p>
 
-<pre><code>$ blkid -s UUID -o value /dev/sda&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt;
+<pre><code> $ blkid -s UUID -o value /dev/sda&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt;
 </code></pre></li>
 <li><p>Add the following line to the <em>/mnt/etc/crypttab</em> file (create the file if necessary):</p>
 
-<pre><code>mint_crypt      &lt;UUID value obtained above&gt;       /crypto_keyfile.bin         luks,keyscript=/bin/cat
+<pre><code> mint_crypt      &lt;UUID value obtained above&gt;       /crypto_keyfile.bin         luks,keyscript=/bin/cat
 </code></pre></li>
 </ol>
 
-<h3>Chroot Into Linux Mint and Finish Up the Install</h3>
+
+<h2>Chroot Into Linux Mint and Finish Up the Install</h2>
 
 <ol>
 <li><p><em>chroot</em> into the Linux Mint environment:</p>
 
-<pre><code>$ sudo mount /dev/vg01/root /mnt
-$ sudo mount /dev/vg01/boot /mnt/boot
-$ sudo mount /dev/vg01/home /mnt/home
-$ sudo mount /dev/vg01/usr /mnt/usr
-$ sudo mount /dev/vg01/var /mnt/var
-$ sudo chroot /mnt /bin/bash
+<pre><code> $ sudo mount /dev/vg01/root /mnt
+ $ sudo mount /dev/vg01/boot /mnt/boot
+ $ sudo mount /dev/vg01/home /mnt/home
+ $ sudo mount /dev/vg01/usr /mnt/usr
+ $ sudo mount /dev/vg01/var /mnt/var
+ $ sudo chroot /mnt /bin/bash
 </code></pre></li>
 <li><p>Now execute the following commands to generate the locale and the initial ramdisk:</p>
 
-<pre><code>$ sudo locale-gen --purge --no-archive
-$ sudo update-initramfs -u
+<pre><code> $ sudo locale-gen --purge --no-archive
+ $ sudo update-initramfs -u
 </code></pre></li>
 <li><p>Now we must setup the GRUB boot loader. First make a backup of the existing GRUB
 configuration file:</p>
 
-<pre><code>$ cd /etc/default
-$ sudo mv grub{,.bak}
+<pre><code>  $ cd /etc/default
+  $ sudo mv grub{,.bak}
 </code></pre></li>
 <li><p>Now download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/grub" title="grub">GRUB configuration file</a>
 and copy it to <em>/etc/default/grub</em>.</p></li>
@@ -444,24 +139,25 @@ and copy it to <em>/etc/default/grub</em>.</p></li>
 and copy it to <em>/boot/grub/grub_background.png</em>.</p></li>
 <li><p>Now install the GRUB boot loader:</p>
 
-<pre><code>$ sudo grub-mkconfig -o /boot/grub.cfg
-$ sudo grub-install /dev/&lt;drive identifier&gt;
+<pre><code> $ sudo grub-mkconfig -o /boot/grub.cfg
+ $ sudo grub-install /dev/&lt;drive identifier&gt;
 </code></pre></li>
 <li><p>If the file <em>/sbin/initctl.REAL</em> is present, execute the following commands:</p>
 
-<pre><code>$ sudo mv /sbin/initctl /sbin/initctl.orig
-$ sudo mv /sbin/initctl.REAL /sbin/initctl
+<pre><code> $ sudo mv /sbin/initctl /sbin/initctl.orig
+ $ sudo mv /sbin/initctl.REAL /sbin/initctl
 </code></pre></li>
 <li><p>Finally, exit out of the <em>chroot</em> environment, unmount all the directories and reboot:</p>
 
-<pre><code>$ exit
-$ sudo umount /mnt/sys /mnt/dev/pts /mnt/dev /mnt/run /mnt/proc 
-$ sudo umount /mnt/boot /mnt/home /mnt/usr /mnt/var /mnt
-$ reboot
+<pre><code> $ exit
+ $ sudo umount /mnt/sys /mnt/dev/pts /mnt/dev /mnt/run /mnt/proc 
+ $ sudo umount /mnt/boot /mnt/home /mnt/usr /mnt/var /mnt
+ $ reboot
 </code></pre></li>
 </ol>
 
-<h3>Fix GRUB Menu</h3>
+
+<h2>Fix GRUB Menu</h2>
 
 <p>After rebooting, you will be presented with the GRUB boot loader menu. There
 will be entries to boot into the Windows 10 partition and Linux Mint partition.
@@ -494,193 +190,53 @@ file <em>/etc/grub.d/40_custom</em>, edit them as desired and save this file.</p
 
 <p>Reboot to see the new GRUB boot loader menu.</p>
 
-<h3>Setup the fstab file</h3>
+<h2>Setup the fstab file</h2>
 
 <ol>
 <li>Login as <em>johndoe</em>.</li>
-<li><p>Create directories in <em>johndoe's</em> home folder for Oracle Virtualbox and wallpapers:</p>
+<li><p>Create directories in <em>johndoe&rsquo;s</em> home folder for Oracle Virtualbox and wallpapers:</p>
 
-<pre><code>$ mkdir /home/johndoe/VirtualBox\ VMs
-$ mkdir /home/johndoe/Wallpaper
+<pre><code> $ mkdir /home/johndoe/VirtualBox\ VMs
+ $ mkdir /home/johndoe/Wallpaper
 </code></pre></li>
 <li><p>Make a backup of the existing <em>/etc/fstab</em> file (this contains all the mount
 points for the system):</p>
 
-<pre><code>$ cd /etc
-$ sudo mv fstab{,.bak}
+<pre><code>  $ cd /etc
+  $ sudo mv fstab{,.bak}
 </code></pre></li>
 <li><p>Download the new <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/fstab" title="fstab"><em>fstab</em> file</a>
 and copy it to <em>/etc/fstab</em>.</p></li>
 <li><p>Setup all the mount points in the <em>fstab</em> file and mount them using the command (note that the
 UUID numbers for your system will be different than the ones in this file):</p>
 
-<pre><code>$ sudo mount -a
+<pre><code>  $ sudo mount -a
 </code></pre></li>
 </ol>
 
-<h3>Perform More Customizations</h3>
+
+<h2>Perform More Customizations</h2>
 
 <p>Watch the <a href="https://youtu.be/RXV6FXVL6xI" title="15 Things To Do First in Linux Mint">Youtube video</a>
 and perform any of the customizations mentioned.</p>
 
-<h3>Install and Configure Remaining Linux Mint Packages</h3>
-
-<ol>
-<li>Perform any GUI customizations to <em>johndoe's</em> desktop that you wish.</li>
-<li><p>Before installing the remaining packages, update the package database:</p>
-
-<pre><code>$ sudo apt-get update
-</code></pre></li>
-</ol>
-
-<h4>Download Configuration Files from git Repository</h4>
-
-<p>Execute the following command in <em>johndoe's</em> home directory:</p>
-
-<pre><code>    $ sudo apt-get update &amp;&amp; sudo apt-get install git
-    $ git config --global user.name "John Doe"
-    $ git config --global user.email "johndoe@server.com"
-    $ git clone https://github.com/ashgupta1971/dotfiles.git
-</code></pre>
-
-<h4>Setup the Shell, Editor and File Browser</h4>
-
-<ol>
-<li><p>Install the Z Shell:</p>
-
-<pre><code>$ sudo apt-get install zsh zsh-docs
-$ chsh -s /usr/bin/zsh johndoe
-</code></pre></li>
-<li><p>Download the Z Shell configuration file <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/zshrc" title="zshrc"><em>zshrc</em></a> into <em>johndoe's</em> home directory
-and rename it <em>.zshrc</em>.</p></li>
-<li><p>Install the <em>thunar</em> file browser and configure its settings as desired from its GUI.</p>
-
-<pre><code>$ sudo apt-get install thunar
-</code></pre></li>
-<li><p>Now install <code>gvim</code>:</p>
-
-<pre><code>$ sudo apt-get install vim-gtk
-</code></pre></li>
-<li><p>Get the vim configuration file <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/vimrc" title="vimrc"><em>vimrc</em></a> and copy it to <em>johndoe's</em> home directory
-with the name <em>.vimrc</em>.</p></li>
-</ol>
-
-<h4>Setup the Music Player</h4>
-
-<ol>
-<li><p>Install the <em>Music Player Daemon</em>:</p>
-
-<pre><code>$ sudo apt-get install mpd mpc
-</code></pre></li>
-<li><p>Configure the Music Player Daemon by first creating its working 
-and playlist directories:</p>
-
-<pre><code>$ mkdir -p ~/.config/mpd/playlists
-</code></pre></li>
-<li><p>Next, download the <em>Music Player Daemon</em> configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/mpd/mpd.conf" title="mpd.conf"><em>mpd.conf</em></a> and copy it to <em>~/.config/mpd/mpd.conf</em></p></li>
-<li><p>Install the <em>ncmpcpp</em> music player client:</p>
-
-<pre><code>$ sudo apt-get install ncmpcpp
-</code></pre></li>
-<li><p>Download the <em>ncmpcpp</em> configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/ncmpcpp/config" title="ncmpcpp config file"><em>config</em></a> and copy it to <em>~/.config/ncmpcpp/config</em>.</p></li>
-</ol>
-
-<h4>Setup the i3 Window Manager</h4>
-
-<ol>
-<li><p>Install the <em>i3 Window Manager</em>:</p>
-
-<pre><code>$ sudo apt-get install i3
-</code></pre></li>
-<li><p>Create the <em>i3 Window Manager</em> configuration directory: </p>
-
-<pre><code>$ mkdir -p ~/.config/i3/
-</code></pre></li>
-<li><p>Download the <em>i3 Window Manager</em> configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/i3/config" title="i3wm config file"><em>config</em></a> and copy it to <em>~/.config/i3/config</em>.</p></li>
-<li><p>Install the <em>i3 Window Manager status bar</em> and create its configuration directory:</p>
-
-<pre><code>$ sudo apt-get install i3status
-$ mkdir -p ~/.config/i3status
-</code></pre></li>
-<li><p>Configure the status bar:</p>
-
-<ul>
-<li>download its configuration file <a href="https://github.com/ashgupta1971/dotfiles/blob/master/i3status/config" title="i3wm status bar config file"><em>config</em></a> and copy it to <em>~/.config/i3status/config</em></li>
-<li>download the custom status bar configuration script <a href="https://github.com/ashgupta1971/dotfiles/blob/master/i3status/myi3status.sh" title="myi3status.sh"><em>myi3status.sh</em></a> and copy it to <em>~/.config/i3status/myi3status.sh</em></li>
-</ul></li>
-<li><p>Install the compositor <em>compton</em> (which handles window transparency), 
-<em>i3lock</em> lock screen, <em>rofi</em> application launcher and <em>feh</em> wallpaper manager:</p>
-
-<pre><code>$ sudo apt-get install compton i3lock rofi feh
-</code></pre></li>
-</ol>
-
-<h4>Setup MediaTomb</h4>
-
-<p>Mediatomb is a UPnP media server that allows you to stream your media library across your home. To install
-it type:</p>
-
-<pre><code>    $ sudo apt-get install mediatomb
-</code></pre>
-
-<p>The mediatomb configuration file is <em>~/.mediatomb/config.xml</em>. By default, the web UI is enabled and is insecure
-because it allows anyone to access all files on the sytem where mediatomb is installed. To disable the UI, change the line
-in the confiuration file that says:</p>
-
-<pre><code>    &lt;ui enabled="yes" poll-interval="2" poll-when-idle="no"/&gt;
-</code></pre>
-
-<p>to</p>
-
-<pre><code>    &lt;ui enabled="no" poll-interval="2" poll-when-idle="no"/&gt;
-</code></pre>
-
-<p>To launch mediatomb in daemon mode, enter the following command:</p>
-
-<pre><code>    $ mediatomb --port 49152 --daemon --home ~/Music --logfile ~/.mediatomb/mediatomb.log --config ~/.mediatomb/config.xml
-</code></pre>
-
-<p>If you want mediatomb to start automatically at boot then download this <a href="https://github.com/ashgupta1971/dotfiles/blob/master/mediatomb/mediatomb.service" title="mediatomb.service"><em>systemd unit file</em></a>.
-Place this file in <em>/etc/systemd/system</em>. Then execute the following commands:</p>
-
-<pre><code>    $ cd /etc/systemd/system
-    $ sudo chown root:root mediatomb.service
-    $ sudo chmod 664 mediatomb.service
-    $ sudo systemctl daemon-reload
-    $ sudo systemctl enable mediatomb.service
-    $ sudo systemctl start mediatomb.service
-</code></pre>
-
-<h4>Setup Oracle Virtualbox</h4>
+<h2>Setup Oracle Virtualbox</h2>
 
 <ol>
 <li>Download <a href="http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html" title="Oracle Virtualbox">Oracle Virtualbox</a>.</li>
 <li><p>Install it with the command:</p>
 
-<pre><code>$ sudo dpkg -i &lt;path to .deb file&gt;
+<pre><code> $ sudo dpkg -i &lt;path to .deb file&gt;
 </code></pre></li>
 <li><p>Launch Virtualbox and allow it to download and install the extension package.</p></li>
 <li>Import all the virtualbox appliances previously exported.</li>
 </ol>
 
-<h2>Rewrite Veracrypt Volume Header</h2>
+
+<h2>Change Shell and Setup Additional Packages</h2>
 
 <ol>
-<li>Boot into your system using the Veracrypt rescue disk.</li>
-<li>When prompted, choose the option to rewrite the Veracrypt volume header (key).</li>
-<li>Now enter your password to boot into Windows 10.</li>
+<li>Optionally, you can change the shell, editor, file manager and perform other customizations
+as described <a href="https://ashgupta1971.github.io/DualBootLinuxMint/Common/install-lightweight-apps.html" title="Final Customizations">here</a>.</li>
 </ol>
 
-<p>Note that you only need to write the Veracrypt volume header once. On subsequent
-boots with the Veracrypt rescue disk, you can just enter your password to reach
-Windows 10.</p>
-
-<h2>Make Separate Images of the Windows 10 and Linux Mint Partitions</h2>
-
-<p>Boot from a USB flash drive containing Clonezilla and use it to make
-an image of the 100 GiB Windows 10 partition to an external hard drive.</p>
-
-<p>Do the same for the Linux Mint partition.</p>
-
-<p><em>Note: Do not make images of the Google Drive, Music, Ebooks, Data,
- Shared Documents or Virtual Machine partitions.</em></p>

@@ -307,10 +307,35 @@ in bulk later.</em></p>
 
 <h2>Setting Up a Non-Encrypted Dual-Boot System</h2>
 
-<p>The process for setting up a non-encrypted, dual-boot system
-is described <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/dual-boot-without-encryption.html" title="Dual-Boot Without Encryption">here</a>.</p>
+<p>Now that Windows 10 has been installed, we can install Linux Mint as described
+<a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/dual-boot-without-encryption.html" title="Dual-Boot Without Encryption">here</a>.</p>
 
 <h2>Setting Up an Encrypted Dual-Boot System</h2>
 
-<p>The process for setting up an encrypted, dual-boot system
-is described <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/dual-boot-with-encryption.html" title="Dual-Boot With Encryption">here</a>.</p>
+<p>To finish setting up the system, setup an encrypted Linux Mint partition as described
+<a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/dual-boot-with-encryption.html" title="Dual-Boot With Encryption">here</a>.</p>
+
+<h2>Make Separate Images of the Windows 10 and Linux Mint Partitions</h2>
+
+<p>Boot from a USB flash drive containing Clonezilla and use it to make
+an image of the 100 GiB Windows 10 partition to an external hard drive.</p>
+
+<p>Do the same for the Linux Mint partition.</p>
+
+<p><em>Note: Do not make images of the Google Drive, Music, Ebooks, Data,
+ Shared Documents or Virtual Machine partitions.</em></p>
+
+<h2>Restore Data from Backups</h2>
+
+<ol>
+<li>Restore all music to the folder <em>C:\Users\johndoe\Music</em>.</li>
+<li>Restore all ebooks to the folder <em>C:\Users\johndoe\Ebooks</em>.</li>
+<li>Download all files from <em>johndoe&rsquo;s</em> Google Drive account into the folder <em>C:\Users\johndoe\Google Drive</em>.</li>
+<li>Restore the contents of the <em>Data</em> partition.</li>
+<li>Copy the <em>johndoe.kdbx</em> password file back to the folder <em>C:\Users\johndoe\Shared Documents</em>.</li>
+</ol>
+
+
+<hr />
+
+<p><strong>Congratulations! You have successfully setup a dual boot Windows 10/Linux Mint system.</strong></p>
