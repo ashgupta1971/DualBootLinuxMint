@@ -40,7 +40,7 @@ reflects this assumption).</li>
 
 <ul>
 <li>Basic linux command line usage</li>
-<li>How to set up partitions using the linux <em>fdisk</em> utility</li>
+<li>How to set up partitions using the linux <em>parted</em> disk utility</li>
 </ul>
 
 
@@ -177,17 +177,14 @@ list all physical volumes, issue the command:</p>
 <pre><code>    $ sudo pvremove --verbose &lt;pvname&gt;
 </code></pre>
 
-<p>Now wipe all partition information from the storage device using fdisk:</p>
+<p>Now wipe all partition information from the storage device using &lsquo;parted&rsquo;:</p>
 
-<pre><code>    $ sudo fdisk /dev/sd&lt;device identifier&gt;
+<pre><code>    $ sudo parted /dev/sd&lt;device identifier&gt;
 </code></pre>
-
-<p>At the fdisk prompt type &ldquo;o&rdquo; to erase the MBR and then type &ldquo;w&rdquo; to write
-all changes and exit the utility.</p>
 
 <h3>Create New Partitions on Storage Device</h3>
 
-<p>Create the following partitions on the storage device using fdisk (use
+<p>Create the following partitions on the storage device using &lsquo;parted&rsquo; (use
 a partition type of &ldquo;7&rdquo; for NTFS partitions):</p>
 
 <ol>
@@ -305,12 +302,12 @@ in bulk later.</em></p>
 </ol>
 
 
-<h2>Setting Up a Non-Encrypted Dual-Boot System</h2>
+<h2>Install Linux Mint (Unencrypted)</h2>
 
 <p>Now that Windows 10 has been installed, we can install Linux Mint as described
 <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/dual-boot-without-encryption.html" title="Dual-Boot Without Encryption">here</a>.</p>
 
-<h2>Setting Up an Encrypted Dual-Boot System</h2>
+<h2>Install Linux Mint (Encrypted)</h2>
 
 <p>To finish setting up the system, setup an encrypted Linux Mint partition as described
 <a href="https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/dual-boot-with-encryption.html" title="Dual-Boot With Encryption">here</a>.</p>

@@ -35,7 +35,7 @@ reflects this assumption).
 Also, it is assumed the reader has some knowledge of the following:
 
 * Basic linux command line usage
-* How to set up partitions using the linux *fdisk* utility
+* How to set up partitions using the linux *parted* disk utility
 
 It doesn't matter which version of Windows 10 
 (32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
@@ -153,16 +153,13 @@ For each physical volume, issue the command:
 
         $ sudo pvremove --verbose <pvname>
 
-Now wipe all partition information from the storage device using fdisk:
+Now wipe all partition information from the storage device using 'parted':
 
-        $ sudo fdisk /dev/sd<device identifier>
-
-At the fdisk prompt type "o" to erase the MBR and then type "w" to write
-all changes and exit the utility.
+        $ sudo parted /dev/sd<device identifier>
 
 ### Create New Partitions on Storage Device
 
-Create the following partitions on the storage device using fdisk (use
+Create the following partitions on the storage device using 'parted' (use
 a partition type of "7" for NTFS partitions):
 
 1. a 100 GiB *Windows 10* primary partition formatted as *NTFS*
@@ -261,12 +258,12 @@ in bulk later.*
 1. Configure the desktop as desired.
 1. Calibrate the display using Windows' *calibrate* utility.
 
-## Setting Up a Non-Encrypted Dual-Boot System
+## Install Linux Mint (Unencrypted)
 
 Now that Windows 10 has been installed, we can install Linux Mint as described
 [here](https://ashgupta1971.github.io/DualBootLinuxMint/WithoutEncryption/dual-boot-without-encryption.html "Dual-Boot Without Encryption").
 
-## Setting Up an Encrypted Dual-Boot System
+## Install Linux Mint (Encrypted)
 
 To finish setting up the system, setup an encrypted Linux Mint partition as described
 [here](https://ashgupta1971.github.io/DualBootLinuxMint/WithEncryption/dual-boot-with-encryption.html "Dual-Boot With Encryption").
