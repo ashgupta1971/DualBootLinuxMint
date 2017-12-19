@@ -146,11 +146,6 @@ UUID numbers for your system will be different than the ones in this file):
 
         $ sudo mount -a
 
-## Perform More Customizations
-
-Watch the [Youtube video](https://youtu.be/RXV6FXVL6xI "15 Things To Do First in Linux Mint")
-and perform any of the customizations mentioned.
-
 ## Setup Oracle Virtualbox
 
 1. Download [Oracle Virtualbox](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
@@ -161,7 +156,12 @@ and perform any of the customizations mentioned.
 1. Launch Virtualbox and allow it to download and install the extension package.
 1. Import all the virtualbox appliances previously exported.
 
-## Change Shell and Setup Additional Packages
+## Perform More Customizations
 
-1. Optionally, you can change the shell, editor, file manager and perform other customizations
-as described [here](https://ashgupta1971.github.io/DualBootLinuxMint/Common/install-lightweight-apps.html "Final Customizations").
+Watch the [Youtube video](https://youtu.be/RXV6FXVL6xI "15 Things To Do First in Linux Mint")
+and perform any of the customizations mentioned.
+
+## Change Shell and Install Additional Packages
+
+Optionally, you can change the shell, editor, file manager and perform other customizations
+as described [here](https://ashgupta1971.github.io/DualBootLinuxMint/Common/install-lightweight-apps.html "Install i3, zsh, vim and more.").
