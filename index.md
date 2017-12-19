@@ -289,4 +289,4 @@ Do the same for the Linux Mint partition.
 
 ***
 
-**Congratulations! You have successfully setup a dual boot Windows 10/Linux Mint system.**
+# Congratulations! You have successfully setup a dual boot Windows 10/Linux Mint system.
