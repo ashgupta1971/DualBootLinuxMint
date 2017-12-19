@@ -11,7 +11,7 @@
 </code></pre></li>
 <li><p>Format the Linux Mint partition for encryption:</p>
 
-<pre><code> $ cryptsetup --type luks format /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
+<pre><code> $ cryptsetup luksFormat /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
 </code></pre></li>
 <li><p><strong>NOTE: For even stronger security, use the following command instead of the one above:</strong></p>
 
@@ -25,7 +25,7 @@
 <ol>
 <li><p>&ldquo;Open&rdquo; (unencrypt) the newly formatted partition:</p>
 
-<pre><code> $ cryptsetup --type luks open /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
+<pre><code> $ cryptsetup luksOpen /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
 </code></pre></li>
 <li><p>Create a physical LVM volume from the <em>Linux Mint</em> partition using the command:</p>
 
