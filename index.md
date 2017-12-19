@@ -36,6 +36,7 @@ Also, it is assumed the reader has some knowledge of the following:
 
 * Basic linux command line usage
 * How to set up partitions using the linux *parted* disk utility
+* How to make images of partitions using *Clonezilla* imaging utility.
 
 It doesn't matter which version of Windows 10 
 (32-bit, 64-bit, Home, Professional) or Linux Mint you plan 
