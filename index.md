@@ -186,7 +186,7 @@ To format partitions with the NTFS file system, use the command:
 #### During Install
 
 1. Insert the USB flash drive containing Windows 10 and boot from it.
-1. Go through the installtion procedure.
+1. Go through the installation procedure.
 1. Choose the *Windows 10* partition when prompted (this should be partition number 1). 
  *Note: Because we are telling Windows to install in a specific partition, it will not generate
 a separate **System Reserved** partition. Instead, it will place all files in the partition we
