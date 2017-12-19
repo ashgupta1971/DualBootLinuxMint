@@ -124,7 +124,8 @@ containing the Linux Mint ISO file):</p>
 
 <h3>Backup Data to Storage Device</h3>
 
-<p>Backup the following items to your storage device:</p>
+<p>Either from a live Linux Mint environment or your existing Windows 10 environment,
+backup the following items to your external storage device:</p>
 
 <ul>
 <li><em>Downloads</em> folder</li>
@@ -146,7 +147,8 @@ number of &ldquo;instances&rdquo; of their product you can install.</p>
 
 <h3>Wipe LVMs and Partitions on Storage Device</h3>
 
-<p>First look for any logical volumes on the storage device with the following command:</p>
+<p>Perform the following steps from a Linux Mint live environment.
+First look for any logical volumes on the storage device with the following command:</p>
 
 <pre><code>    $ sudo lvs
 </code></pre>
@@ -185,8 +187,8 @@ list all physical volumes, issue the command:</p>
 
 <h3>Create New Partitions on Storage Device</h3>
 
-<p>Create the following partitions on the storage device using &lsquo;parted&rsquo; (use
-a partition type of &ldquo;7&rdquo; for NTFS partitions):</p>
+<p>Create the following partitions on the storage device using &lsquo;parted&rsquo;, again
+from a Linux Mint live environment (use a partition type of &ldquo;7&rdquo; for NTFS partitions):</p>
 
 <ol>
 <li>a 100 GiB <em>Windows 10</em> primary partition formatted as <em>NTFS</em></li>
@@ -228,6 +230,7 @@ have chosen.</em></li>
 
 <ol>
 <li>Disconnect from the internet.</li>
+<li>Boot into the Windows 10 environment you just installed.</li>
 <li>Install all the drivers previously downloaded, in the following order:
 
 <ul>
@@ -324,6 +327,8 @@ an image of the 100 GiB Windows 10 partition to an external hard drive.</p>
  Shared Documents or Virtual Machine partitions.</em></p>
 
 <h2>Restore Data from Backups</h2>
+
+<p>The following steps can be done from either your new Windows 10 or Linux Mint environments:</p>
 
 <ol>
 <li>Restore all music to the folder <em>C:\Users\johndoe\Music</em>.</li>

@@ -108,7 +108,8 @@ Burn the ISO file to a USB flash drive as follows:
 
 ### Backup Data to Storage Device
 
-Backup the following items to your storage device:
+Either from a live Linux Mint environment or your existing Windows 10 environment, 
+backup the following items to your external storage device:
 
 * *Downloads* folder
 * *Documents* folder
@@ -128,6 +129,7 @@ number of "instances" of their product you can install.
 
 ### Wipe LVMs and Partitions on Storage Device
 
+Perform the following steps from a Linux Mint live environment.
 First look for any logical volumes on the storage device with the following command:
 
         $ sudo lvs
@@ -160,8 +162,8 @@ Now wipe all partition information from the storage device using 'parted':
 
 ### Create New Partitions on Storage Device
 
-Create the following partitions on the storage device using 'parted' (use
-a partition type of "7" for NTFS partitions):
+Create the following partitions on the storage device using 'parted', again
+from a Linux Mint live environment (use a partition type of "7" for NTFS partitions):
 
 1. a 100 GiB *Windows 10* primary partition formatted as *NTFS*
 1. a 450 GiB *Linux Mint* unformatted, logical partition
@@ -195,6 +197,7 @@ have chosen.*
 #### After Install
 
 1. Disconnect from the internet.
+1. Boot into the Windows 10 environment you just installed.
 1. Install all the drivers previously downloaded, in the following order:
     * chipset
     * LAN
@@ -280,6 +283,8 @@ Do the same for the Linux Mint partition.
  Shared Documents or Virtual Machine partitions.*
 
 ## Restore Data from Backups
+
+The following steps can be done from either your new Windows 10 or Linux Mint environments:
 
 1. Restore all music to the folder *C:\Users\johndoe\Music*.
 1. Restore all ebooks to the folder *C:\Users\johndoe\Ebooks*.
