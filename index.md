@@ -166,7 +166,9 @@ Create the following partitions on the storage device using 'parted', again
 from a Linux Mint live environment (use a partition type of "7" for NTFS partitions):
 
 1. a 100 GiB *Windows 10* primary partition formatted as *NTFS*
-1. a 450 GiB *Linux Mint* unformatted, logical partition
+1. a 450 GiB *Linux Mint* unformatted, logical partition. 
+**NOTE: if you are going to encrypt the Linux Mint environment, then this partition
+must be created with OPTIMAL alignment. (Use the *parted* arguments "--align optimal".)**
 1. a 25 GiB *Shared Documents* logical partition formatted as *NTFS*
 1. a 25 GiB *Music* logical partition formatted as *NTFS*
 1. a 25 GiB *Google Drive* logical partition formatted as *NTFS*
