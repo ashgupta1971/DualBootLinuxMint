@@ -11,7 +11,7 @@
 </code></pre></li>
 <li><p>Format the Linux Mint partition for encryption:</p>
 
-<pre><code> $ cryptsetup luksFormat /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
+<pre><code> $ sudo cryptsetup luksFormat /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt;
 </code></pre></li>
 <li><p><strong>NOTE: For even stronger security, use the following command instead of the one above:</strong></p>
 
@@ -25,7 +25,7 @@
 <ol>
 <li><p>&ldquo;Open&rdquo; (unencrypt) the newly formatted partition:</p>
 
-<pre><code> $ cryptsetup luksOpen /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
+<pre><code> $ sudo cryptsetup luksOpen /dev/sd&lt;drive identifier&gt;&lt;partition identifier&gt; mint_crypt
 </code></pre></li>
 <li><p>Create a physical LVM volume from the <em>Linux Mint</em> partition using the command:</p>
 
@@ -78,10 +78,10 @@ appropriate mount points.</p>
 </code></pre></li>
 <li><p>Now create the keyfile needed to unlock the filesystem on boot:</p>
 
-<pre><code> $ dd bs=512 count=4 if=/dev/urandom of=/mnt/boot/crypto_keyfile.bin
- $ cryptsetup luksAddKey /dev/sd&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt; /mnt/boot/crypto_keyfile.bin
- $ chmod 000 /mnt/boot/crypto_keyfile.bin
- $ chmod -R go-rwx /mnt/boot
+<pre><code> $ sudo dd bs=512 count=4 if=/dev/urandom of=/mnt/boot/crypto_keyfile.bin
+ $ sudo cryptsetup luksAddKey /dev/sd&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt; /mnt/boot/crypto_keyfile.bin
+ $ sudo chmod 000 /mnt/boot/crypto_keyfile.bin
+ $ sudo chmod -R go-rwx /mnt/boot
 </code></pre></li>
 <li><p><strong>Note: If you have chosen to use very strong encryption standards (as mentioned above when formatting the device),
 then replace the first of the four commands above to:</strong></p>
@@ -97,11 +97,11 @@ then replace the first of the four commands above to:</strong></p>
 <li><p>Create an initramfs hook with the following commands:</p>
 
 <pre><code> $ echo "cp /boot/crypto_keyfile.bin \"\${DESTDIR}\"" | sudo tee -a /mnt/etc/initramfs-tools/hooks/crypto_keyfile
- $ chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
+ $ sudo chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
 </code></pre></li>
 <li><p>Copy the output of the following command (this gives the UUID of the Linux Mint partition):</p>
 
-<pre><code> $ blkid -s UUID -o value /dev/sda&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt;
+<pre><code> $ sudo blkid -s UUID -o value /dev/sda&lt;Linux Mint drive identifier&gt;&lt;partition identifier&gt;
 </code></pre></li>
 <li><p>Add the following line to the <em>/mnt/etc/crypttab</em> file (create the file if necessary):</p>
 
@@ -167,7 +167,7 @@ into the GRUB boot loader menu after each selection.)</p>
 <p>Now we will manually, edit the GRUB boot loader menu so that it appears more
 presentable. First, make a backup copy of the GRUB files:</p>
 
-<pre><code>    $ sudo cp -R /etc/grub.d /etc/grub.d.original
+<pre><code>    $ sudo cp -r /etc/grub.d /etc/grub.d.original
 </code></pre>
 
 <p>Next, go into the GRUB boot loader directory and delete all unnecessary files:</p>

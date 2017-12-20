@@ -10,7 +10,7 @@
 
 1. Format the Linux Mint partition for encryption:
 
-        $ cryptsetup luksFormat /dev/sd<drive identifier><partition identifier>
+        $ sudo cryptsetup luksFormat /dev/sd<drive identifier><partition identifier>
 
 1. **NOTE: For even stronger security, use the following command instead of the one above:**
 
@@ -20,7 +20,7 @@
 
 1. "Open" (unencrypt) the newly formatted partition:
 
-        $ cryptsetup luksOpen /dev/sd<drive identifier><partition identifier> mint_crypt
+        $ sudo cryptsetup luksOpen /dev/sd<drive identifier><partition identifier> mint_crypt
 
 1. Create a physical LVM volume from the *Linux Mint* partition using the command:
 
@@ -67,10 +67,10 @@ appropriate mount points.
 
 1. Now create the keyfile needed to unlock the filesystem on boot:
 
-        $ dd bs=512 count=4 if=/dev/urandom of=/mnt/boot/crypto_keyfile.bin
-        $ cryptsetup luksAddKey /dev/sd<Linux Mint drive identifier><partition identifier> /mnt/boot/crypto_keyfile.bin
-        $ chmod 000 /mnt/boot/crypto_keyfile.bin
-        $ chmod -R go-rwx /mnt/boot
+        $ sudo dd bs=512 count=4 if=/dev/urandom of=/mnt/boot/crypto_keyfile.bin
+        $ sudo cryptsetup luksAddKey /dev/sd<Linux Mint drive identifier><partition identifier> /mnt/boot/crypto_keyfile.bin
+        $ sudo chmod 000 /mnt/boot/crypto_keyfile.bin
+        $ sudo chmod -R go-rwx /mnt/boot
 
 1. **Note: If you have chosen to use very strong encryption standards (as mentioned above when formatting the device), 
 then replace the first of the four commands above to:**
@@ -82,11 +82,11 @@ then replace the first of the four commands above to:**
 1. Create an initramfs hook with the following commands:
 
         $ echo "cp /boot/crypto_keyfile.bin \"\${DESTDIR}\"" | sudo tee -a /mnt/etc/initramfs-tools/hooks/crypto_keyfile
-        $ chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
+        $ sudo chmod +x /mnt/etc/initramfs-tools/hooks/crypto_keyfile
 
 1. Copy the output of the following command (this gives the UUID of the Linux Mint partition):
 
-        $ blkid -s UUID -o value /dev/sda<Linux Mint drive identifier><partition identifier>
+        $ sudo blkid -s UUID -o value /dev/sda<Linux Mint drive identifier><partition identifier>
 
 1. Add the following line to the */mnt/etc/crypttab* file (create the file if necessary):
 
@@ -147,7 +147,7 @@ into the GRUB boot loader menu after each selection.)
 Now we will manually, edit the GRUB boot loader menu so that it appears more
 presentable. First, make a backup copy of the GRUB files:
 
-        $ sudo cp -R /etc/grub.d /etc/grub.d.original
+        $ sudo cp -r /etc/grub.d /etc/grub.d.original
 
 Next, go into the GRUB boot loader directory and delete all unnecessary files:
 
