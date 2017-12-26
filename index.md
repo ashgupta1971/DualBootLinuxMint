@@ -20,8 +20,8 @@ along with data that needs to be preserved. If this is not the
 case then the reader can omit the relevant sections.
 * The data which needs to be preserved will be placed in separate
 partitions (ie. for music, google drive data, etc.).
-* You have Norton Security installed and this product needs to
-be deactivated and reinstalled after the fresh install of Windows 10.
+* You have Windows software with keys that need to be deactivated
+before reinstalling Windows (eg. Norton Internet Security).
 * There may be existing LVM metadata on the drive which needs to
 be removed. Again, skip the relevant sections if this is not the case.
 * The storage device will be completely erased and a 
@@ -60,7 +60,7 @@ The initial steps which need to be performed are the same for both procedures:
 1. Download any drivers needed for new Windows 10 installation and save them on USB flash drive.
 1. Download Linux Mint ISO file, verify checksum and burn ISO to a USB flash drive.
 1. Backup existing data to an external drive.
-1. Deactivate Norton Security on existing Windows installation.
+1. Deactivate any Windows software that has product keys (such as Norton Internet Security or Microsoft Office).
 1. Wipe LVM data and partition tables on storage device.
 1. Create New Partitions on Storage Device.
 
@@ -118,13 +118,11 @@ backup the following items to your external storage device:
 * the *johndoe.kdbx* password file
 * export all Oracle Virtualbox VMs as appliances to an external drive
 
-### Deactivate Norton Security
+### Deactivate Windows Software
 
-If you don't deactivate Norton Security before reinstalling Windows, 
-your Norton online account will still assume you have an "instance" of 
-their product activated and running. This will count against the total
-number of "instances" of their product you can install.
-
+Products such as Norton Internet Security need to be deactivated before reinstalling
+Windows. Otherwise, when you reinstall this software, its install "count" will increase
+by one even though you have not installed it on a new device.
 
 ### Wipe LVMs and Partitions on Storage Device
 

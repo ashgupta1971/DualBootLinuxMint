@@ -22,8 +22,8 @@ along with data that needs to be preserved. If this is not the
 case then the reader can omit the relevant sections.</li>
 <li>The data which needs to be preserved will be placed in separate
 partitions (ie. for music, google drive data, etc.).</li>
-<li>You have Norton Security installed and this product needs to
-be deactivated and reinstalled after the fresh install of Windows 10.</li>
+<li>You have Windows software with keys that need to be deactivated
+before reinstalling Windows (eg. Norton Internet Security).</li>
 <li>There may be existing LVM metadata on the drive which needs to
 be removed. Again, skip the relevant sections if this is not the case.</li>
 <li>The storage device will be completely erased and a
@@ -68,7 +68,7 @@ not of interest.</p>
 <li>Download any drivers needed for new Windows 10 installation and save them on USB flash drive.</li>
 <li>Download Linux Mint ISO file, verify checksum and burn ISO to a USB flash drive.</li>
 <li>Backup existing data to an external drive.</li>
-<li>Deactivate Norton Security on existing Windows installation.</li>
+<li>Deactivate any Windows software that has product keys (such as Norton Internet Security or Microsoft Office).</li>
 <li>Wipe LVM data and partition tables on storage device.</li>
 <li>Create New Partitions on Storage Device.</li>
 </ol>
@@ -137,12 +137,11 @@ backup the following items to your external storage device:</p>
 </ul>
 
 
-<h3>Deactivate Norton Security</h3>
+<h3>Deactivate Windows Software</h3>
 
-<p>If you don&rsquo;t deactivate Norton Security before reinstalling Windows,
-your Norton online account will still assume you have an &ldquo;instance&rdquo; of
-their product activated and running. This will count against the total
-number of &ldquo;instances&rdquo; of their product you can install.</p>
+<p>Products such as Norton Internet Security need to be deactivated before reinstalling
+Windows. Otherwise, when you reinstall this software, its install &ldquo;count&rdquo; will increase
+by one even though you have not installed it on a new device.</p>
 
 <h3>Wipe LVMs and Partitions on Storage Device</h3>
 

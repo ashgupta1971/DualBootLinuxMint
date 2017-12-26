@@ -35,11 +35,12 @@ have chosen.*
 1. Create a folder *C:\Users\johndoe\Ebooks* and map the *Ebooks* partition to it.
 1. Create a folder *C:\Users\johndoe\VirtualBox VMs* and map the *Windows Virtual Machines* partition to it.
 1. Set permissions for the *Data* partition so that only *admin* and *johndoe* can access it.
-1. Connect to the internet, download and install *Norton Security* and all security updates.
+1. Connect to the internet and install your security software.
 1. Install all outstanding Windows 10 updates.
+1. Install and activate any non-free software which you previously deactivated (ie. Microsoft Office).
 1. Download and install the driver and software for your printer.
 
-## Install Software
+## Install Open-Source Software
 
 1. Visit [Ninite](https://ninite.com/ "Ninite") and download and install the following software.
  *Note: Keep the Ninite installer download. You can use it to update all these applications
@@ -71,10 +72,12 @@ in bulk later.*
 
 1. Download and install [*PDF-XChange Viewer*](https://www.tracker-software.com/product/pdf-xchange-viewer "PDF-XChange Viewer").
 1. Download and install [*Oracle Virtualbox*](http://www.oracle.com/technetwork/server-storage/virtualbox/downloads/index.html "Oracle Virtualbox").
+1. Import all Oracle Virtualbox appliances previously exported.
 1. Install [*gvim*](http://www.vim.org), download the 
 [*vimrc* configuration file](https://github.com/ashgupta1971/dotfiles/blob/master/vim/.vimrc ".vimrc") and copy it to *C:\Users\johndoe\\_vimrc*.
+
+## Finish Up Windows Installation
+
 1. Remove unnecessary programs from startup using Windows' *msconfig* utility.
-1. Import all Oracle Virtualbox appliances previously exported.
-1. Restore data to all data partitions (ie. music, google drive, etc.).
 1. Configure the desktop as desired.
 1. Calibrate the display using Windows' *calibrate* utility.
