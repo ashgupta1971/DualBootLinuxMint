@@ -13,7 +13,7 @@ makes:
 
 * The storage device being used is 1 TB in size.
 * The storage device is a hard disk drive, not a SSD.
-* The storage device is in MBR format (not UEFI) and will be
+* The storage device is in MBR format (not GPT) and will be
 kept that way.
 * There may be an existing instance of Windows 10 installed 
 along with data that needs to be preserved. If this is not the
