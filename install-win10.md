@@ -8,7 +8,7 @@
  *Note: Because we are telling Windows to install in a specific partition, it will not generate
 a separate **System Reserved** partition. Instead, it will place all files in the partition we
 have chosen.*
-1. Make sure not to choose "Express Install" when prompted (this will enable various "snooping" options).
+1. Make sure not to choose "Express Install" when prompted (otherwise, several invasive privacy settings will be enabled).
 1.  When prompted for the first user account, choose the name *admin* but ensure it is created as a *local* account not a *One Drive* account.
 
 ## After Install
@@ -23,7 +23,7 @@ have chosen.*
     * graphics card
 1. Create a *local*, *non-adminstrator* account called *johndoe*.
 1. Create a *visitor* account by running this [batch script](https://ashgupta1971.github.io/DualBootLinuxMint/Common/create-visitor-account.bat "Visitor account creation script")
- from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER>.
+ from an administrator command prompt. When the script prompts for a visitor password, just press <ENTER\>.
 1. Enable restore points on the C partition (Windows 10 disables them by default).
 1. Windows 10, by default, assumes the hardware clock is in local time. Linux Mint, by default, assumes it is in UTC time. To reconcile
  this difference, we will perform a registry edit to tell Windows 10 that the hardware clock is in UTC time. Download the
