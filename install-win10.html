@@ -99,8 +99,11 @@ in bulk later.</em></p>
 <li>Calibrate the display using Windows' <em>calibrate</em> utility.</li>
 <li>Disable <strong>Fast Startup</strong> from the <strong>Power Options</strong> section of <strong>Control Panel</strong>.
 (This is needed in order to boot from the USB stick containing Linux Mint.)</li>
-<li>Disable <strong>hibernation</strong>. From an <strong>Administrator&rsquo;s Command Line</strong> prompt, enter the following:
-     C:> powercfg /h off
-(This step is needed in order to mount NTFS partitions as read-write under Linux Mint.)</li>
+<li><p>Disable <strong>hibernation</strong>. From an <strong>Administrator&rsquo;s Command Line</strong> prompt, enter the following:</p>
+
+<pre><code> C:\&gt; powercfg /h off
+</code></pre></li>
 </ol>
 
+
+<p>(This step is needed in order to mount NTFS partitions as read/write under Linux Mint.)</p>
