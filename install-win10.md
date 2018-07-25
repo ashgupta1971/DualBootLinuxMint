@@ -81,3 +81,8 @@ in bulk later.*
 1. Remove unnecessary programs from startup using Windows' *msconfig* utility.
 1. Configure the desktop as desired.
 1. Calibrate the display using Windows' *calibrate* utility.
+1. Disable **Fast Startup** from the **Power Options** section of **Control Panel**.
+(This is needed in order to boot from the USB stick containing Linux Mint.)
+1. Disable **hibernation**. From an **Administrator's Command Line** prompt, enter the following:
+        C:\> powercfg /h off
+(This step is needed in order to mount NTFS partitions as read-write under Linux Mint.)
