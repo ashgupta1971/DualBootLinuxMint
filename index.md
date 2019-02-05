@@ -66,6 +66,10 @@ The initial steps which need to be performed are the same for both procedures:
 
 ### Download Windows 10 ISO File and Burn it to a USB Flash Drive
 
+** NOTE: The following method doesn't work for some reason. Use
+Microsoft's Media Creation Tool (available on their website) to
+burn the ISO to a USB flash drive. **
+
 Download the [Windows 10 ISO file](https://www.microsoft.com/en-us/software-download/windows10ISO "Windows 10 ISO").
 
 Burn it to a USB flash drive from the command line as follows:
